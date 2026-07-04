@@ -118,13 +118,12 @@ pre { margin: 0; background: #0f172a; color: #e2e8f0; padding: 12px; border-radi
         var(--wide) [wide-end] var(--full) [full-end];
 }
 .gh-canvas > * { grid-column: main; }
-.gh-comments { margin-top: 40px; }
 .giscus, .giscus-frame { width: 100%; }
 
-#demo-slot { margin-bottom: 100px; }
+#demo-slot { margin-bottom: 120px; }
 /* A mount without gh-canvas still lines up with the reading column. */
 [data-greedylabs-giscus]:not(.gh-canvas) { max-width: 720px; margin-left: auto; margin-right: auto; padding-left: 24px; padding-right: 24px; }
-body > [data-greedylabs-giscus] { margin-bottom: 100px; }
+body > [data-greedylabs-giscus] { margin-bottom: 120px; }
 
 /* Placeholder shown for the subscriber comments area before giscus replaces it. */
 .demo-slot-label {
