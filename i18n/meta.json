@@ -1,0 +1,36 @@
+{
+  "order": [
+    "ko",
+    "en",
+    "ja",
+    "zh",
+    "es",
+    "fr",
+    "de",
+    "pt",
+    "hi"
+  ],
+  "default": "en",
+  "names": {
+    "ko": "한국어",
+    "en": "English",
+    "ja": "日本語",
+    "zh": "中文",
+    "es": "Español",
+    "fr": "Français",
+    "de": "Deutsch",
+    "pt": "Português",
+    "hi": "हिन्दी"
+  },
+  "locales": {
+    "ko": "ko_KR",
+    "en": "en_US",
+    "ja": "ja_JP",
+    "zh": "zh_CN",
+    "es": "es_ES",
+    "fr": "fr_FR",
+    "de": "de_DE",
+    "pt": "pt_BR",
+    "hi": "hi_IN"
+  }
+}

@@ -1,3 +1,6 @@
 node_modules
 .DS_Store
 *.zip
+.next
+out
+public/giscus-mount.js
