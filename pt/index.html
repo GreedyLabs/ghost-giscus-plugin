@@ -210,7 +210,7 @@
         <h3>A ordem importa</h3>
         <p>Este plugin deve vir antes do script do giscus. O giscus decide onde montar no instante em que roda, verificando se há um elemento giscus, então nosso script precisa criar esse lugar primeiro. Inverta a ordem e os comentários acabam na tag do script.</p>
         <h3>Opções</h3>
-        <p>Tudo é configurado com opções na tag do script: a qual elemento ancorar (data-target), onde ao redor dele anexar (data-place, um entre replace, append, prepend, before, after), a classe ou classes adicionadas ao wrapper de montagem (data-class, separadas por espaço para você colocar várias e herdar o estilo do seu tema) e os quatro lados do espaçamento (data-padding-top, data-padding-right, data-padding-bottom, data-padding-left, em px). Quando o elemento alvo não é encontrado, uma proteção de página remove o script do giscus para os comentários não caírem no lugar errado; desligue-a com data-guard="false".</p>
+        <p>Tudo é configurado com opções na tag do script: a qual elemento ancorar (<code>data-target</code>), onde ao redor dele anexar (<code>data-place</code>, um entre replace, append, prepend, before, after), a classe ou classes adicionadas ao wrapper de montagem (<code>data-class</code>, separadas por espaço para você colocar várias e herdar o estilo do seu tema) e os quatro lados do espaçamento (<code>data-padding-top</code>, <code>data-padding-right</code>, <code>data-padding-bottom</code>, <code>data-padding-left</code>, em px). Quando o elemento alvo não é encontrado, uma proteção de página remove o script do giscus para os comentários não caírem no lugar errado; desligue-a com <code>data-guard="false"</code>.</p>
         <pre><code>data-target=".gh-content"
 data-place="after"
 data-class="gh-comments gh-canvas"
@@ -219,14 +219,14 @@ data-padding-bottom="48"</code></pre>
         <h2>Escolhendo um lugar</h2>
         <p>Dois formatos cobrem a maioria dos casos: colocar os comentários logo depois do artigo ou substituir um bloco de comentários existente. Os dois são vistos a seguir, um de cada vez.</p>
         <h3>Colocar depois do artigo</h3>
-        <p>O padrão recomendado é data-target=".gh-content" data-place="after" data-class="gh-comments gh-canvas" data-padding-bottom="48". Ele cria o ponto de montagem logo depois do corpo do artigo (.gh-content) e herda as classes gh-comments gh-canvas do tema, de modo que o espaçamento e a largura parecem nativos. É a escolha mais segura porque o corpo do artigo sempre existe em toda página. Ao contrário de uma área de comentários só para membros, que pode ficar oculta, o alvo nunca some, então o comportamento é o mesmo em todo lugar.</p>
+        <p>O padrão recomendado é <code>data-target=".gh-content"</code> <code>data-place="after"</code> <code>data-class="gh-comments gh-canvas"</code> <code>data-padding-bottom="48"</code>. Ele cria o ponto de montagem logo depois do corpo do artigo (<code>.gh-content</code>) e herda as classes <code>gh-comments gh-canvas</code> do tema, de modo que o espaçamento e a largura parecem nativos. É a escolha mais segura porque o corpo do artigo sempre existe em toda página. Ao contrário de uma área de comentários só para membros, que pode ficar oculta, o alvo nunca some, então o comportamento é o mesmo em todo lugar.</p>
         <pre><code>&lt;script src="https://cdn.jsdelivr.net/gh/GreedyLabs/ghost-giscus-plugin@1/giscus-mount.min.js"
         data-target=".gh-content"
         data-place="after"
         data-class="gh-comments gh-canvas"
         data-padding-bottom="48"&gt;&lt;/script&gt;</code></pre>
         <h3>Substituir um bloco de comentários existente</h3>
-        <p>Se o seu tema já tem um bloco de comentários, reaproveite o lugar dele com data-target=".gh-comments" data-place="replace". Isso reproduz &lt;div class="gh-comments gh-canvas giscus"&gt;&lt;/div&gt; apenas com code injection, sem editar o tema, então você herda a posição e o estilo que o tema já definiu. Use quando existir um bloco correspondente. A ressalva: os comentários nativos do Ghost são só para membros, então em sites que os desativam o elemento .gh-comments pode não existir. Nesse caso, use o padrão de colocar depois do artigo acima.</p>
+        <p>Se o seu tema já tem um bloco de comentários, reaproveite o lugar dele com <code>data-target=".gh-comments"</code> <code>data-place="replace"</code>. Isso reproduz &lt;div class="<code>gh-comments gh-canvas</code> giscus"&gt;&lt;/div&gt; apenas com code injection, sem editar o tema, então você herda a posição e o estilo que o tema já definiu. Use quando existir um bloco correspondente. A ressalva: os comentários nativos do Ghost são só para membros, então em sites que os desativam o elemento <code>.gh-comments</code> pode não existir. Nesse caso, use o padrão de colocar depois do artigo acima.</p>
         <pre><code>&lt;script src="https://cdn.jsdelivr.net/gh/GreedyLabs/ghost-giscus-plugin@1/giscus-mount.min.js"
         data-target=".gh-comments"
         data-place="replace"&gt;&lt;/script&gt;</code></pre>
@@ -241,7 +241,7 @@ data-padding-bottom="48"</code></pre>
         <h4>Só quero comentários em certas páginas.</h4>
         <p>Aponte a âncora para um elemento que só exista nessas páginas. Quando o seletor não corresponde a nada, o plugin não faz nada, então mirar um elemento exclusivo dos posts mantém os comentários nos posts.</p>
         <h4>Quero o espaçamento de comentários do meu tema.</h4>
-        <p>Se a regra está na folha de estilos do seu tema, adicione a classe dela com data-class para herdá-la; caso contrário, defina o valor diretamente com data-padding-bottom.</p>
+        <p>Se a regra está na folha de estilos do seu tema, adicione a classe dela com <code>data-class</code> para herdá-la; caso contrário, defina o valor diretamente com <code>data-padding-bottom</code>.</p>
 
         <h2>Conclusão</h2>
         <p>É uma ferramenta leve que mantém o giscus oficial intacto e apenas o posiciona por você. ghost-giscus-plugin é de código aberto sob a licença MIT; o código e as issues estão no GitHub. Experimente as opções no painel à esquerda e copie o trecho quando gostar. Se ajudou você, um café é sempre bem-vindo ☕.</p>

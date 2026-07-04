@@ -94,6 +94,13 @@ pre { margin: 0; background: #0f172a; color: #e2e8f0; padding: 12px; border-radi
 .demo-article p { margin: 1em 0; color: var(--art-fg); }
 .demo-article pre { margin: 1.2em 0; }
 .demo-article a { color: var(--ghost-accent-color); }
+/* Inline code in prose, rendered in monospace so options stand out. */
+.demo-article p code, .demo-article li code {
+    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    font-size: .86em; color: var(--ui-fg);
+    background: var(--ui-subtle); border: 1px solid var(--ui-border);
+    border-radius: 5px; padding: 1px 5px; word-break: break-word;
+}
 
 /* The real Ghost Source grid, copied verbatim from the site's screen.css, so the
    comments area lines up with the article exactly like a live post. The theme has

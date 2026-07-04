@@ -210,7 +210,7 @@
         <h3>顺序很重要</h3>
         <p>这个插件必须放在 giscus 脚本之前。giscus 在运行的那一刻就会检查是否存在 giscus 元素并确定挂载位置，所以我们的脚本必须先把那个位置创建出来。顺序反了，评论就会落在脚本标签的位置上。</p>
         <h3>选项设置</h3>
-        <p>所有行为都通过脚本标签上的选项配置：以哪个元素为基准 (data-target)、相对它附加到哪个位置 (data-place，取 replace、append、prepend、before、after 五种之一)、添加到挂载包装器上的类名 (data-class，以空格分隔，可添加多个以继承主题样式)，以及四个方向的内边距 (data-padding-top、data-padding-right、data-padding-bottom、data-padding-left，单位为 px)。当找不到目标元素时，页面守卫会移除 giscus 脚本，避免评论落到错误的位置；用 data-guard="false" 可以关闭它。</p>
+        <p>所有行为都通过脚本标签上的选项配置：以哪个元素为基准 (<code>data-target</code>)、相对它附加到哪个位置 (<code>data-place</code>，取 replace、append、prepend、before、after 五种之一)、添加到挂载包装器上的类名 (<code>data-class</code>，以空格分隔，可添加多个以继承主题样式)，以及四个方向的内边距 (<code>data-padding-top</code>、<code>data-padding-right</code>、<code>data-padding-bottom</code>、<code>data-padding-left</code>，单位为 px)。当找不到目标元素时，页面守卫会移除 giscus 脚本，避免评论落到错误的位置；用 <code>data-guard="false"</code> 可以关闭它。</p>
         <pre><code>data-target=".gh-content"
 data-place="after"
 data-class="gh-comments gh-canvas"
@@ -219,14 +219,14 @@ data-padding-bottom="48"</code></pre>
         <h2>选择位置</h2>
         <p>常见的做法有两种：把评论放在正文正后方，或替换已有的评论区块。下面依次介绍这两种。</p>
         <h3>放在正文之后</h3>
-        <p>推荐的默认配置是 data-target=".gh-content" data-place="after" data-class="gh-comments gh-canvas" data-padding-bottom="48"。它在正文 (.gh-content) 正后方创建挂载点，并继承主题的 gh-comments gh-canvas 类名，因此间距和宽度看起来与主题浑然一体。这种做法最稳妥，因为正文在每个页面上都始终存在。与可能被隐藏、只对会员显示的评论区不同，这个目标不会消失，因此在任何地方都表现一致。</p>
+        <p>推荐的默认配置是 <code>data-target=".gh-content"</code> <code>data-place="after"</code> <code>data-class="gh-comments gh-canvas"</code> <code>data-padding-bottom="48"</code>。它在正文 (<code>.gh-content</code>) 正后方创建挂载点，并继承主题的 <code>gh-comments gh-canvas</code> 类名，因此间距和宽度看起来与主题浑然一体。这种做法最稳妥，因为正文在每个页面上都始终存在。与可能被隐藏、只对会员显示的评论区不同，这个目标不会消失，因此在任何地方都表现一致。</p>
         <pre><code>&lt;script src="https://cdn.jsdelivr.net/gh/GreedyLabs/ghost-giscus-plugin@1/giscus-mount.min.js"
         data-target=".gh-content"
         data-place="after"
         data-class="gh-comments gh-canvas"
         data-padding-bottom="48"&gt;&lt;/script&gt;</code></pre>
         <h3>替换已有的评论区块</h3>
-        <p>如果你的主题已经有评论区块，就用 data-target=".gh-comments" data-place="replace" 复用那个位置。这样无需修改主题文件，仅凭 code injection 就能重现 &lt;div class="gh-comments gh-canvas giscus"&gt;&lt;/div&gt;，从而继承主题已设定的位置与样式。当存在可匹配的区块时适合这样做。需要注意的是：Ghost 的原生评论仅对会员开放，所以在关闭该功能的站点上，.gh-comments 元素可能根本不存在。这时请改用上面放在正文之后的默认配置。</p>
+        <p>如果你的主题已经有评论区块，就用 <code>data-target=".gh-comments"</code> <code>data-place="replace"</code> 复用那个位置。这样无需修改主题文件，仅凭 code injection 就能重现 &lt;div class="<code>gh-comments gh-canvas</code> giscus"&gt;&lt;/div&gt;，从而继承主题已设定的位置与样式。当存在可匹配的区块时适合这样做。需要注意的是：Ghost 的原生评论仅对会员开放，所以在关闭该功能的站点上，<code>.gh-comments</code> 元素可能根本不存在。这时请改用上面放在正文之后的默认配置。</p>
         <pre><code>&lt;script src="https://cdn.jsdelivr.net/gh/GreedyLabs/ghost-giscus-plugin@1/giscus-mount.min.js"
         data-target=".gh-comments"
         data-place="replace"&gt;&lt;/script&gt;</code></pre>
@@ -239,9 +239,9 @@ data-padding-bottom="48"</code></pre>
         <h4>评论出现在脚本标签处，而不是我想要的位置。</h4>
         <p>你的插件脚本排在 giscus 脚本之后了。把它们调换，让这个插件排在前面。</p>
         <h4>我只想在某些页面显示评论。</h4>
-        <p>让基准元素只存在于那些页面上就行。选择器匹配不到任何元素时插件什么都不做，所以用 data-target 指向只在文章页出现的元素，评论就只会出现在文章页。</p>
+        <p>让基准元素只存在于那些页面上就行。选择器匹配不到任何元素时插件什么都不做，所以用 <code>data-target</code> 指向只在文章页出现的元素，评论就只会出现在文章页。</p>
         <h4>我想沿用主题的评论间距。</h4>
-        <p>如果规则在主题样式表里，用 data-class 加上那个类名来继承它；否则用 data-padding-bottom 直接设置数值。</p>
+        <p>如果规则在主题样式表里，用 <code>data-class</code> 加上那个类名来继承它；否则用 <code>data-padding-bottom</code> 直接设置数值。</p>
 
         <h2>结语</h2>
         <p>它保持官方 giscus 不变，只为你安排位置，是个轻量工具。 ghost-giscus-plugin 是 MIT 许可的开源项目，代码与问题反馈都在 GitHub 上。在左侧面板调整选项，满意后复制嵌入代码即可。如果它帮到了你，欢迎请我喝杯咖啡 ☕。</p>

@@ -22,6 +22,12 @@ const DEFAULT = data.default;
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const escAttr = (s) => esc(s).replace(/"/g, '&quot;');
 
+// esc() a body string, then wrap unambiguous code tokens (data-* attributes, CSS
+// selectors, class names) in <code> so they render in monospace. One pass, so
+// nothing double-wraps. Bare English words (after, replace) are left alone.
+const CODE_RE = /(data-[a-z]+(?:-[a-z]+)*(?:="[^"]*")?)|(\.gh-[a-z-]+)|(\.notion-page-content)|(\.giscus)(?![\w-])|(gh-comments gh-canvas)|(--[a-z-]*ghost[a-z-]*)|(greedylabs-ghost-[a-z-]+)|(h[1-6](?:,\s?h[1-6])+)/g;
+const richText = (s) => esc(s).replace(CODE_RE, (m) => `<code>${m}</code>`);
+
 // giscus UI language codes (fall back to en for unsupported)
 const GISCUS_LANG = { ko: 'ko', en: 'en', ja: 'ja', zh: 'zh-CN', es: 'es', fr: 'fr', de: 'de', pt: 'pt', hi: 'en' };
 
@@ -265,43 +271,43 @@ ${jsonld(lang, t, url)}
 
     <article class="demo-article gh-content gh-canvas">
         <h1>${esc(t.demoTitle)}</h1>
-        <p>${esc(t.demoIntro)}</p>
+        <p>${richText(t.demoIntro)}</p>
 
         <h2>${esc(t.h_intro)}</h2>
-        <p>${esc(t.bodyIntro)}</p>
+        <p>${richText(t.bodyIntro)}</p>
 
         <h2>${esc(t.h_install)}</h2>
-        <p>${esc(t.bodyInstall)}</p>
+        <p>${richText(t.bodyInstall)}</p>
         <pre><code>${esc(codeInstall(t))}</code></pre>
         <h3>${esc(t.h_ordering)}</h3>
-        <p>${esc(t.bodyOrdering)}</p>
+        <p>${richText(t.bodyOrdering)}</p>
         <h3>${esc(t.h_options)}</h3>
-        <p>${esc(t.bodyOptions)}</p>
+        <p>${richText(t.bodyOptions)}</p>
         <pre><code>${esc(CODE_OPTIONS)}</code></pre>
 
         <h2>${esc(t.h_placement)}</h2>
-        <p>${esc(t.bodyPlacement)}</p>
+        <p>${richText(t.bodyPlacement)}</p>
         <h3>${esc(t.h_placeAfter)}</h3>
-        <p>${esc(t.bodyPlaceAfter)}</p>
+        <p>${richText(t.bodyPlaceAfter)}</p>
         <pre><code>${esc(CODE_AFTER)}</code></pre>
         <h3>${esc(t.h_placeReplace)}</h3>
-        <p>${esc(t.bodyPlaceReplace)}</p>
+        <p>${richText(t.bodyPlaceReplace)}</p>
         <pre><code>${esc(CODE_REPLACE)}</code></pre>
 
         <h2>${esc(t.h_setup)}</h2>
-        <p>${esc(t.bodySetup)}</p>
+        <p>${richText(t.bodySetup)}</p>
         <p><a href="https://giscus.app" target="_blank" rel="noopener">${esc(t.setupLink)} →</a></p>
 
         <h2>${esc(t.h_faq)}</h2>
         <h4>${esc(t.faqQ1)}</h4>
-        <p>${esc(t.faqA1)}</p>
+        <p>${richText(t.faqA1)}</p>
         <h4>${esc(t.faqQ2)}</h4>
-        <p>${esc(t.faqA2)}</p>
+        <p>${richText(t.faqA2)}</p>
         <h4>${esc(t.faqQ3)}</h4>
-        <p>${esc(t.faqA3)}</p>
+        <p>${richText(t.faqA3)}</p>
 
         <h2>${esc(t.h_closing)}</h2>
-        <p>${esc(t.bodyClosing)}</p>
+        <p>${richText(t.bodyClosing)}</p>
     </article>
 
     <!-- Stands in for the theme's native comments slot, shown only in replace

@@ -210,7 +210,7 @@
         <h3>L'ordre compte</h3>
         <p>Ce plugin doit figurer avant le script giscus. giscus décide où monter à l'instant où il s'exécute, en cherchant un élément giscus, donc notre script doit d'abord créer cet emplacement. Inversez l'ordre et les commentaires atterrissent sur la balise du script.</p>
         <h3>Options</h3>
-        <p>Tout se règle avec des options sur la balise script : à quel élément s'ancrer (data-target), où l'attacher autour de lui (data-place, l'un de replace, append, prepend, before, after), la ou les classes ajoutées au conteneur de montage (data-class, séparées par des espaces pour en mettre plusieurs et hériter du style de votre thème), et les quatre côtés de la marge (data-padding-top, data-padding-right, data-padding-bottom, data-padding-left, en px). Quand l'élément cible est introuvable, une garde de page retire le script giscus pour que les commentaires n'atterrissent pas au mauvais endroit ; désactivez-la avec data-guard="false".</p>
+        <p>Tout se règle avec des options sur la balise script : à quel élément s'ancrer (<code>data-target</code>), où l'attacher autour de lui (<code>data-place</code>, l'un de replace, append, prepend, before, after), la ou les classes ajoutées au conteneur de montage (<code>data-class</code>, séparées par des espaces pour en mettre plusieurs et hériter du style de votre thème), et les quatre côtés de la marge (<code>data-padding-top</code>, <code>data-padding-right</code>, <code>data-padding-bottom</code>, <code>data-padding-left</code>, en px). Quand l'élément cible est introuvable, une garde de page retire le script giscus pour que les commentaires n'atterrissent pas au mauvais endroit ; désactivez-la avec <code>data-guard="false"</code>.</p>
         <pre><code>data-target=".gh-content"
 data-place="after"
 data-class="gh-comments gh-canvas"
@@ -219,14 +219,14 @@ data-padding-bottom="48"</code></pre>
         <h2>Choisir un emplacement</h2>
         <p>Deux formes couvrent la plupart des cas : placer les commentaires juste après l'article, ou remplacer un bloc de commentaires existant. Les deux sont détaillées ci-dessous, l'une après l'autre.</p>
         <h3>Le placer après l'article</h3>
-        <p>La valeur par défaut recommandée est data-target=".gh-content" data-place="after" data-class="gh-comments gh-canvas" data-padding-bottom="48". Elle crée le point de montage juste après le corps de l'article (.gh-content) et hérite des classes gh-comments gh-canvas du thème, si bien que l'espacement et la largeur paraissent natifs. C'est le choix le plus sûr, car le corps de l'article existe toujours sur chaque page. Contrairement à une zone de commentaires réservée aux membres qui peut être masquée, la cible ne disparaît jamais, donc le comportement reste identique partout.</p>
+        <p>La valeur par défaut recommandée est <code>data-target=".gh-content"</code> <code>data-place="after"</code> <code>data-class="gh-comments gh-canvas"</code> <code>data-padding-bottom="48"</code>. Elle crée le point de montage juste après le corps de l'article (<code>.gh-content</code>) et hérite des classes <code>gh-comments gh-canvas</code> du thème, si bien que l'espacement et la largeur paraissent natifs. C'est le choix le plus sûr, car le corps de l'article existe toujours sur chaque page. Contrairement à une zone de commentaires réservée aux membres qui peut être masquée, la cible ne disparaît jamais, donc le comportement reste identique partout.</p>
         <pre><code>&lt;script src="https://cdn.jsdelivr.net/gh/GreedyLabs/ghost-giscus-plugin@1/giscus-mount.min.js"
         data-target=".gh-content"
         data-place="after"
         data-class="gh-comments gh-canvas"
         data-padding-bottom="48"&gt;&lt;/script&gt;</code></pre>
         <h3>Remplacer un bloc de commentaires existant</h3>
-        <p>Si votre thème possède déjà un bloc de commentaires, réutilisez son emplacement avec data-target=".gh-comments" data-place="replace". Cela reproduit &lt;div class="gh-comments gh-canvas giscus"&gt;&lt;/div&gt; par la seule code injection, sans modifier le thème, vous héritez donc de la position et du style déjà définis par le thème. À privilégier lorsqu'un bloc correspondant existe. La réserve : les commentaires natifs de Ghost sont réservés aux membres, donc sur les sites qui les désactivent l'élément .gh-comments peut ne pas exister du tout. Dans ce cas, utilisez la valeur par défaut ci-dessus qui place après l'article.</p>
+        <p>Si votre thème possède déjà un bloc de commentaires, réutilisez son emplacement avec <code>data-target=".gh-comments"</code> <code>data-place="replace"</code>. Cela reproduit &lt;div class="<code>gh-comments gh-canvas</code> giscus"&gt;&lt;/div&gt; par la seule code injection, sans modifier le thème, vous héritez donc de la position et du style déjà définis par le thème. À privilégier lorsqu'un bloc correspondant existe. La réserve : les commentaires natifs de Ghost sont réservés aux membres, donc sur les sites qui les désactivent l'élément <code>.gh-comments</code> peut ne pas exister du tout. Dans ce cas, utilisez la valeur par défaut ci-dessus qui place après l'article.</p>
         <pre><code>&lt;script src="https://cdn.jsdelivr.net/gh/GreedyLabs/ghost-giscus-plugin@1/giscus-mount.min.js"
         data-target=".gh-comments"
         data-place="replace"&gt;&lt;/script&gt;</code></pre>
@@ -241,7 +241,7 @@ data-padding-bottom="48"</code></pre>
         <h4>Je ne veux des commentaires que sur certaines pages.</h4>
         <p>Pointez l'ancre vers un élément qui n'existe que sur ces pages. Quand le sélecteur ne correspond à rien, le plugin ne fait rien, donc viser un élément propre aux articles garde les commentaires sur les articles.</p>
         <h4>Je veux l'espacement des commentaires de mon thème.</h4>
-        <p>Si la règle est dans la feuille de style de votre thème, ajoutez sa classe avec data-class pour en hériter ; sinon, définissez la valeur directement avec data-padding-bottom.</p>
+        <p>Si la règle est dans la feuille de style de votre thème, ajoutez sa classe avec <code>data-class</code> pour en hériter ; sinon, définissez la valeur directement avec <code>data-padding-bottom</code>.</p>
 
         <h2>Conclusion</h2>
         <p>C'est un outil léger qui laisse giscus officiel intact et se contente de le placer pour vous. ghost-giscus-plugin est open source sous licence MIT ; le code et les tickets sont sur GitHub. Essayez les options dans le panneau de gauche et copiez l'extrait quand cela vous convient. Si cela vous a aidé, un café est toujours apprécié ☕.</p>

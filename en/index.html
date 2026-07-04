@@ -210,7 +210,7 @@
         <h3>Order matters</h3>
         <p>This plugin must appear before the giscus script. giscus decides where to mount the instant it runs, checking for a giscus element, so our script has to create that spot first. Reverse the order and the comments land at the script tag instead.</p>
         <h3>Options</h3>
-        <p>Everything is set with options on the script tag: which element to anchor to (data-target), where around it to attach (data-place, one of replace, append, prepend, before, after), the class or classes added to the mount wrapper (data-class, space-separated so you can add several to inherit your theme's styling), and the four sides of padding (data-padding-top, data-padding-right, data-padding-bottom, data-padding-left, in px). When the target element is not found, a page guard removes the giscus script so comments never land in the wrong place; turn it off with data-guard="false".</p>
+        <p>Everything is set with options on the script tag: which element to anchor to (<code>data-target</code>), where around it to attach (<code>data-place</code>, one of replace, append, prepend, before, after), the class or classes added to the mount wrapper (<code>data-class</code>, space-separated so you can add several to inherit your theme's styling), and the four sides of padding (<code>data-padding-top</code>, <code>data-padding-right</code>, <code>data-padding-bottom</code>, <code>data-padding-left</code>, in px). When the target element is not found, a page guard removes the giscus script so comments never land in the wrong place; turn it off with <code>data-guard="false"</code>.</p>
         <pre><code>data-target=".gh-content"
 data-place="after"
 data-class="gh-comments gh-canvas"
@@ -219,14 +219,14 @@ data-padding-bottom="48"</code></pre>
         <h2>Choosing a spot</h2>
         <p>Two shapes cover most cases: placing the comments right after the article, or replacing an existing comments block. The two are walked through below in turn.</p>
         <h3>Place it after the article</h3>
-        <p>The recommended default is data-target=".gh-content" data-place="after" data-class="gh-comments gh-canvas" data-padding-bottom="48". It creates the mount point right after the article body (.gh-content) and inherits the theme's gh-comments gh-canvas classes, so the spacing and width look native. This is the safest choice because the article body always exists on every page. Unlike a members-only comments area that can be hidden away, the target never goes missing, so it behaves the same everywhere.</p>
+        <p>The recommended default is <code>data-target=".gh-content"</code> <code>data-place="after"</code> <code>data-class="gh-comments gh-canvas"</code> <code>data-padding-bottom="48"</code>. It creates the mount point right after the article body (<code>.gh-content</code>) and inherits the theme's <code>gh-comments gh-canvas</code> classes, so the spacing and width look native. This is the safest choice because the article body always exists on every page. Unlike a members-only comments area that can be hidden away, the target never goes missing, so it behaves the same everywhere.</p>
         <pre><code>&lt;script src="https://cdn.jsdelivr.net/gh/GreedyLabs/ghost-giscus-plugin@1/giscus-mount.min.js"
         data-target=".gh-content"
         data-place="after"
         data-class="gh-comments gh-canvas"
         data-padding-bottom="48"&gt;&lt;/script&gt;</code></pre>
         <h3>Replace an existing comments block</h3>
-        <p>If your theme already has a comments block, reuse its spot with data-target=".gh-comments" data-place="replace". This reproduces &lt;div class="gh-comments gh-canvas giscus"&gt;&lt;/div&gt; from code injection alone, without editing the theme, so you inherit the position and styling the theme already set. Reach for it when a matching block exists. The caveat: Ghost's native comments are members-only, so on sites that disable them the .gh-comments element may not exist at all. In that case, use the place-after default above.</p>
+        <p>If your theme already has a comments block, reuse its spot with <code>data-target=".gh-comments"</code> <code>data-place="replace"</code>. This reproduces &lt;div class="<code>gh-comments gh-canvas</code> giscus"&gt;&lt;/div&gt; from code injection alone, without editing the theme, so you inherit the position and styling the theme already set. Reach for it when a matching block exists. The caveat: Ghost's native comments are members-only, so on sites that disable them the <code>.gh-comments</code> element may not exist at all. In that case, use the place-after default above.</p>
         <pre><code>&lt;script src="https://cdn.jsdelivr.net/gh/GreedyLabs/ghost-giscus-plugin@1/giscus-mount.min.js"
         data-target=".gh-comments"
         data-place="replace"&gt;&lt;/script&gt;</code></pre>
@@ -241,7 +241,7 @@ data-padding-bottom="48"</code></pre>
         <h4>I only want comments on certain pages.</h4>
         <p>Point the anchor at an element that only exists on those pages. When the selector matches nothing the plugin does nothing, so targeting a post-only element keeps comments on posts.</p>
         <h4>I want my theme's comment spacing.</h4>
-        <p>If the rule is in your theme stylesheet, add its class with data-class to inherit it; otherwise set the value directly with data-padding-bottom.</p>
+        <p>If the rule is in your theme stylesheet, add its class with <code>data-class</code> to inherit it; otherwise set the value directly with <code>data-padding-bottom</code>.</p>
 
         <h2>Wrapping up</h2>
         <p>It is a thin tool that leaves official giscus untouched and only places it for you. ghost-giscus-plugin is open source under the MIT license; the code and issues live on GitHub. Try the options in the left panel and copy the embed snippet when you are happy. If it helped you, a coffee is always appreciated ☕.</p>

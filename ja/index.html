@@ -210,7 +210,7 @@
         <h3>順序が重要です</h3>
         <p>このプラグインのスクリプトは、必ず giscus スクリプトより先に置く必要があります。giscus は実行された瞬間に giscus 要素があるかを確認して位置を決めるため、こちらのスクリプトが先にその場所を作っておかなければなりません。順序が逆になると、コメントがスクリプトタグの位置に付いてしまいます。</p>
         <h3>オプション設定</h3>
-        <p>動作はすべてスクリプトタグのオプションで設定します。どの要素を基準にするか (data-target)、その要素を基準にどこへ付けるか (data-place: replace, append, prepend, before, after の五種類)、マウント用ラッパーに付けるクラス (data-class、空白区切りで複数指定でき、テーマのスタイルをそのまま継承します)、そして四方向の余白 (data-padding-top, data-padding-right, data-padding-bottom, data-padding-left、単位は px) です。基準要素が見つからない場合は、ページガードが giscus スクリプトを取り除き、コメントが誤った場所に付くのを防ぎます。この動作が不要なら data-guard="false" で無効にします。</p>
+        <p>動作はすべてスクリプトタグのオプションで設定します。どの要素を基準にするか (<code>data-target</code>)、その要素を基準にどこへ付けるか (<code>data-place</code>: replace, append, prepend, before, after の五種類)、マウント用ラッパーに付けるクラス (<code>data-class</code>、空白区切りで複数指定でき、テーマのスタイルをそのまま継承します)、そして四方向の余白 (<code>data-padding-top</code>, <code>data-padding-right</code>, <code>data-padding-bottom</code>, <code>data-padding-left</code>、単位は px) です。基準要素が見つからない場合は、ページガードが giscus スクリプトを取り除き、コメントが誤った場所に付くのを防ぎます。この動作が不要なら <code>data-guard="false"</code> で無効にします。</p>
         <pre><code>data-target=".gh-content"
 data-place="after"
 data-class="gh-comments gh-canvas"
@@ -219,14 +219,14 @@ data-padding-bottom="48"</code></pre>
         <h2>位置を決める</h2>
         <p>よく使う形は二つです。一つは本文のすぐ後ろに置く方法、もう一つは既存のコメントブロックをそのまま置き換える方法です。以下で順に見ていきます。</p>
         <h3>本文の後ろに置く</h3>
-        <p>推奨される既定値は data-target=".gh-content" data-place="after" data-class="gh-comments gh-canvas" data-padding-bottom="48" です。本文 (.gh-content) のすぐ後ろにマウント地点を作り、テーマの gh-comments gh-canvas クラスを継承するので、余白も幅もテーマになじんだ見た目になります。この方法が最も安全なのは、本文はどのページにも必ず存在するからです。購読者にしか表示されず隠れてしまうことのあるコメント欄と違い、対象が消える心配がなく、どこでも同じように動作します。</p>
+        <p>推奨される既定値は <code>data-target=".gh-content"</code> <code>data-place="after"</code> <code>data-class="gh-comments gh-canvas"</code> <code>data-padding-bottom="48"</code> です。本文 (<code>.gh-content</code>) のすぐ後ろにマウント地点を作り、テーマの <code>gh-comments gh-canvas</code> クラスを継承するので、余白も幅もテーマになじんだ見た目になります。この方法が最も安全なのは、本文はどのページにも必ず存在するからです。購読者にしか表示されず隠れてしまうことのあるコメント欄と違い、対象が消える心配がなく、どこでも同じように動作します。</p>
         <pre><code>&lt;script src="https://cdn.jsdelivr.net/gh/GreedyLabs/ghost-giscus-plugin@1/giscus-mount.min.js"
         data-target=".gh-content"
         data-place="after"
         data-class="gh-comments gh-canvas"
         data-padding-bottom="48"&gt;&lt;/script&gt;</code></pre>
         <h3>既存のコメントブロックを置き換える</h3>
-        <p>テーマにすでにコメントブロックがある場合は、data-target=".gh-comments" data-place="replace" でその場所を再利用します。テーマファイルを触らず、code injection だけで &lt;div class="gh-comments gh-canvas giscus"&gt;&lt;/div&gt; をそのまま再現できるので、テーマが定めた位置とスタイルを引き継げます。合致するブロックがあるときに向いています。ただし注意点として、Ghost の標準コメントは購読者向けのため、それを無効にしているサイトでは .gh-comments 要素そのものが存在しないことがあります。その場合は上の本文の後ろに置く既定値を使ってください。</p>
+        <p>テーマにすでにコメントブロックがある場合は、<code>data-target=".gh-comments"</code> <code>data-place="replace"</code> でその場所を再利用します。テーマファイルを触らず、code injection だけで &lt;div class="<code>gh-comments gh-canvas</code> giscus"&gt;&lt;/div&gt; をそのまま再現できるので、テーマが定めた位置とスタイルを引き継げます。合致するブロックがあるときに向いています。ただし注意点として、Ghost の標準コメントは購読者向けのため、それを無効にしているサイトでは <code>.gh-comments</code> 要素そのものが存在しないことがあります。その場合は上の本文の後ろに置く既定値を使ってください。</p>
         <pre><code>&lt;script src="https://cdn.jsdelivr.net/gh/GreedyLabs/ghost-giscus-plugin@1/giscus-mount.min.js"
         data-target=".gh-comments"
         data-place="replace"&gt;&lt;/script&gt;</code></pre>
@@ -239,9 +239,9 @@ data-padding-bottom="48"</code></pre>
         <h4>コメントが思った場所ではなく、スクリプトの位置に付いてしまいます。</h4>
         <p>このプラグインのスクリプトが giscus スクリプトより後ろにある場合です。順序を入れ替えて、このプラグインを先に置いてください。</p>
         <h4>特定のページにだけコメントを付けたいです。</h4>
-        <p>基準要素がそのページにだけ存在すれば大丈夫です。セレクタが一致しなければ何もしないので、投稿ページにだけある要素を data-target に指定すれば、自然と投稿ページにだけ付きます。</p>
+        <p>基準要素がそのページにだけ存在すれば大丈夫です。セレクタが一致しなければ何もしないので、投稿ページにだけある要素を <code>data-target</code> に指定すれば、自然と投稿ページにだけ付きます。</p>
         <h4>テーマのコメント余白をそのまま使いたいです。</h4>
-        <p>テーマのスタイルシートに規則があれば data-class でそのクラスを付けて継承し、なければ data-padding-bottom で値を直接指定します。</p>
+        <p>テーマのスタイルシートに規則があれば <code>data-class</code> でそのクラスを付けて継承し、なければ <code>data-padding-bottom</code> で値を直接指定します。</p>
 
         <h2>おわりに</h2>
         <p>公式の giscus はそのままに、位置だけを整える薄いツールです。 ghost-giscus-plugin は MIT ライセンスのオープンソースで、コードと Issue は GitHub にあります。左パネルでオプションを変え、気に入ったら埋め込みコードをコピーしてください。お役に立てたら、コーヒーを一杯いただけると嬉しいです ☕。</p>
