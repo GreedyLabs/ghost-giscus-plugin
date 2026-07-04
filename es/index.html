@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>ghost-giscus-plugin: coloca los comentarios de giscus donde quieras · configurador y demo</title>
+    <meta name="description" content="Mantén el script oficial de giscus tal cual y elige dónde se montan los comentarios con una sola línea. Funciona mediante la inyección de código de Ghost, sin editar el tema.">
+    <meta name="author" content="GreedyLabs">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://ghost-giscus-plugin.greedylabs.kr/es/">
+    <meta name="theme-color" content="#1a73e8">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231a73e8'/%3E%3Cpath d='M8 9h16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-8l-5 4v-4H8a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2z' fill='white'/%3E%3C/svg%3E">
+
+    <!-- Set the theme before paint to avoid a flash (system unless the user chose one) -->
+    <script>
+      (function () {
+        try {
+          var m = localStorage.getItem('ggisc-theme') || 'system';
+          var dark = m === 'dark' || (m === 'system' && matchMedia('(prefers-color-scheme: dark)').matches);
+          document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+        } catch (e) {}
+      })();
+    </script>
+
+    <link rel="alternate" hreflang="ko" href="https://ghost-giscus-plugin.greedylabs.kr/ko/">
+    <link rel="alternate" hreflang="en" href="https://ghost-giscus-plugin.greedylabs.kr/en/">
+    <link rel="alternate" hreflang="ja" href="https://ghost-giscus-plugin.greedylabs.kr/ja/">
+    <link rel="alternate" hreflang="zh" href="https://ghost-giscus-plugin.greedylabs.kr/zh/">
+    <link rel="alternate" hreflang="es" href="https://ghost-giscus-plugin.greedylabs.kr/es/">
+    <link rel="alternate" hreflang="fr" href="https://ghost-giscus-plugin.greedylabs.kr/fr/">
+    <link rel="alternate" hreflang="de" href="https://ghost-giscus-plugin.greedylabs.kr/de/">
+    <link rel="alternate" hreflang="pt" href="https://ghost-giscus-plugin.greedylabs.kr/pt/">
+    <link rel="alternate" hreflang="hi" href="https://ghost-giscus-plugin.greedylabs.kr/hi/">
+    <link rel="alternate" hreflang="x-default" href="https://ghost-giscus-plugin.greedylabs.kr/">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="ghost-giscus-plugin">
+    <meta property="og:title" content="ghost-giscus-plugin: coloca los comentarios de giscus donde quieras · configurador y demo">
+    <meta property="og:description" content="Mantén el script oficial de giscus tal cual y elige dónde se montan los comentarios con una sola línea. Funciona mediante la inyección de código de Ghost, sin editar el tema.">
+    <meta property="og:url" content="https://ghost-giscus-plugin.greedylabs.kr/es/">
+    <meta property="og:image" content="https://ghost-giscus-plugin.greedylabs.kr/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="es_ES">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ghost-giscus-plugin: coloca los comentarios de giscus donde quieras · configurador y demo">
+    <meta name="twitter:description" content="Mantén el script oficial de giscus tal cual y elige dónde se montan los comentarios con una sola línea. Funciona mediante la inyección de código de Ghost, sin editar el tema.">
+    <meta name="twitter:image" content="https://ghost-giscus-plugin.greedylabs.kr/og-image.png">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "SoftwareApplication",
+          "name": "ghost-giscus-plugin",
+          "description": "Mantén el script oficial de giscus tal cual y elige dónde se montan los comentarios con una sola línea. Funciona mediante la inyección de código de Ghost, sin editar el tema.",
+          "applicationCategory": "DeveloperApplication",
+          "operatingSystem": "Web (Ghost)",
+          "softwareVersion": "1",
+          "url": "https://ghost-giscus-plugin.greedylabs.kr/es/",
+          "codeRepository": "https://github.com/GreedyLabs/ghost-giscus-plugin",
+          "license": "https://opensource.org/licenses/MIT",
+          "author": {
+            "@type": "Organization",
+            "name": "GreedyLabs",
+            "url": "https://github.com/GreedyLabs"
+          },
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "sameAs": [
+            "https://github.com/GreedyLabs/ghost-giscus-plugin"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "name": "ghost-giscus-plugin",
+          "url": "https://ghost-giscus-plugin.greedylabs.kr/",
+          "inLanguage": "es",
+          "publisher": {
+            "@type": "Organization",
+            "name": "GreedyLabs",
+            "url": "https://github.com/GreedyLabs"
+          }
+        }
+      ]
+    }
+    </script>
+
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://umami.greedylabs.kr">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5/400.css">
+    <link rel="stylesheet" href="/demo.css">
+
+    <script defer src="https://umami.greedylabs.kr/script.js"
+            data-website-id="8f01c957-29ec-43f7-8b89-898ffd0ceda3"></script>
+</head>
+<body>
+    <aside class="panel">
+        <h1>ghost-giscus-plugin</h1>
+        <div class="panel-meta">
+            <div class="field row">
+                <div>
+                    <label for="lang-select">Idioma</label>
+                    <select id="lang-select">
+                    <option value="/ko/">한국어</option>
+                    <option value="/en/">English</option>
+                    <option value="/ja/">日本語</option>
+                    <option value="/zh/">中文</option>
+                    <option value="/es/" selected>Español</option>
+                    <option value="/fr/">Français</option>
+                    <option value="/de/">Deutsch</option>
+                    <option value="/pt/">Português</option>
+                    <option value="/hi/">हिन्दी</option>
+                </select>
+                </div>
+                <div>
+                    <label for="theme-select">Tema</label>
+                    <select id="theme-select">
+                    <option value="system">Sistema</option>
+                    <option value="light">Claro</option>
+                    <option value="dark">Oscuro</option>
+                </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="f-target">Ancla <span style="font-weight:400;color:var(--ui-muted)">(selector)</span></label>
+            <input type="text" id="f-target" value=".gh-content">
+            <div class="presets">
+                <button type="button" class="preset" data-target=".gh-content">.gh-content</button>
+                <button type="button" class="preset" data-target=".gh-comments">.gh-comments</button>
+            </div>
+        </div>
+        <div class="field">
+            <label for="f-place">Ubicación</label>
+            <select id="f-place">
+                <option value="after" selected>Después (after)</option>
+                <option value="before">Antes (before)</option>
+                <option value="append">Dentro, al final (append)</option>
+                <option value="prepend">Dentro, al inicio (prepend)</option>
+                <option value="replace">Reemplazar (replace)</option>
+            </select>
+        </div>
+        <div class="field">
+            <label for="f-class">Clase a heredar <span style="font-weight:400;color:var(--ui-muted)">(opcional)</span></label>
+            <input type="text" id="f-class" value="gh-comments gh-canvas" placeholder="gh-comments gh-canvas">
+        </div>
+        <div class="field" style="margin-bottom:4px"><label>Relleno (px)</label></div>
+        <div class="field row">
+            <div><label for="f-pad-top">Arriba</label><input type="number" id="f-pad-top" value="0" step="4" min="0"></div>
+            <div><label for="f-pad-bottom">Abajo</label><input type="number" id="f-pad-bottom" value="48" step="4" min="0"></div>
+        </div>
+        <div class="field row">
+            <div><label for="f-pad-left">Izquierda</label><input type="number" id="f-pad-left" value="0" step="4" min="0"></div>
+            <div><label for="f-pad-right">Derecha</label><input type="number" id="f-pad-right" value="0" step="4" min="0"></div>
+        </div>
+
+        <div class="code">
+            <div class="code-head"><strong>Código de inserción</strong><button class="copy" id="copy">Copiar</button></div>
+            <pre><code id="snippet"></code></pre>
+            <p class="hint">Añade también la etiqueta oficial de giscus debajo de este script. Obtén los valores en <a href="https://giscus.app" target="_blank" rel="noopener">giscus.app</a></p>
+        </div>
+
+        <div class="panel-support">
+            <p>¿Te ha servido? Invítame a un café ☕</p>
+            <script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="daeho.ro" data-color="#FFDD00" data-emoji="" data-font="Cookie" data-text="Buy me a coffee" data-outline-color="#000000" data-font-color="#000000" data-coffee-color="#ffffff"></script>
+        </div>
+    </aside>
+
+    <div class="demo-hero">Área de imagen destacada</div>
+
+    <article class="demo-article">
+        <h1>Vista previa de ghost-giscus-plugin</h1>
+        <p>Los comentarios de esta página reemplazaron el bloque de comentarios de abajo, colocados ahí por este mismo plugin. Cambia la ubicación y el margen en el panel y los comentarios reales se mueven en consecuencia.</p>
+
+        <h2>Introducción</h2>
+        <p>giscus monta los comentarios en cualquier elemento de la página que tenga la clase giscus. Este plugin solo crea ese elemento en el lugar que quieras. Los comentarios en sí los siguen sirviendo giscus y almacenando GitHub Discussions, así que no se reimplementa nada.</p>
+
+        <h2>Instalación</h2>
+        <p>En Ghost, pega los dos scripts de abajo en Ajustes, inyección de código, pie del sitio. El primero es este plugin; el segundo es la etiqueta oficial de giscus.</p>
+        <pre><code>&lt;script src="https://cdn.jsdelivr.net/gh/GreedyLabs/ghost-giscus-plugin@1/giscus-mount.min.js"
+        data-target=".gh-content"
+        data-place="after"
+        data-class="gh-comments gh-canvas"
+        data-padding-bottom="48"&gt;&lt;/script&gt;
+
+&lt;script src="https://giscus.app/client.js"
+        data-repo="[YOUR REPO]"
+        data-repo-id="[REPO ID]"
+        data-category="[CATEGORY]"
+        data-category-id="[CATEGORY ID]"
+        data-mapping="pathname"
+        data-theme="preferred_color_scheme"
+        crossorigin="anonymous"
+        async&gt;&lt;/script&gt;</code></pre>
+
+        <h2>El orden importa</h2>
+        <p>Este plugin debe ir antes que el script de giscus. giscus decide dónde montar en el instante en que se ejecuta, comprobando si hay un elemento giscus, así que nuestro script tiene que crear ese lugar primero. Si inviertes el orden, los comentarios acaban en la etiqueta del script.</p>
+
+        <h2>Opciones</h2>
+        <p>La ubicación se expresa en tres ejes: a qué elemento anclarse (data-target), en qué punto a su alrededor adjuntarse (data-place) y el estilo del contenedor de montaje. Usa data-class para heredar el estilo de los comentarios de tu tema y data-padding-bottom para fijar el espaciado directamente.</p>
+        <pre><code>data-target=".gh-content"
+data-place="after"
+data-class="gh-comments gh-canvas"
+data-padding-bottom="48"</code></pre>
+
+        <h2>Configuración de giscus</h2>
+        <p>El enlace del repositorio, la categoría y el repo-id vienen del sitio oficial de giscus. Introduce ahí tu repositorio y te genera la etiqueta de giscus lista para pegar.</p>
+        <p><a href="https://giscus.app" target="_blank" rel="noopener">Configurar en giscus.app →</a></p>
+
+        <h2>Elegir un lugar</h2>
+        <p>El área de comentarios integrada de Ghost solo se renderiza para los miembros en algunos temas, así que ese elemento puede no existir. Anclarse al cuerpo del artículo o a la etiqueta article, que siempre existen, es más seguro. Para reutilizar un bloque de comentarios existente, pon data-place="replace" para vaciarlo y usarlo como punto de montaje.</p>
+        <pre><code>&lt;div class="gh-comments gh-canvas giscus"&gt;&lt;/div&gt;</code></pre>
+
+        <h2>Preguntas frecuentes</h2>
+        <h4>Los comentarios aparecen en la etiqueta del script, no donde los quiero.</h4>
+        <p>Tu script del plugin va después del script de giscus. Intercámbialos para que este plugin vaya primero.</p>
+        <h4>Solo quiero comentarios en ciertas páginas.</h4>
+        <p>Apunta el ancla a un elemento que solo exista en esas páginas. Cuando el selector no coincide con nada, el plugin no hace nada, así que apuntar a un elemento propio de las entradas mantiene los comentarios en las entradas.</p>
+        <h4>Quiero el espaciado de comentarios de mi tema.</h4>
+        <p>Si la regla está en la hoja de estilos de tu tema, añade su clase con data-class para heredarla; si no, fija el valor directamente con data-padding-bottom.</p>
+
+        <h2>Conclusión</h2>
+        <p>Es una herramienta ligera que deja intacto el giscus oficial y solo lo coloca por ti. Una línea y el orden correcto, y se comporta igual en cualquier sitio.</p>
+    </article>
+
+    <!-- Stands in for the theme's native comments slot, shown only in replace
+         mode where the plugin clears it and turns it into the giscus mount. -->
+    <div id="demo-slot" hidden>
+        <div class="gh-comments gh-canvas"><span class="demo-slot-label">Bloque de comentarios</span></div>
+    </div>
+
+    <!-- 1) our plugin, loaded FIRST so the .giscus mount exists before giscus runs -->
+    <script src="/giscus-mount.js"
+            data-target=".demo-article"
+            data-place="after"
+            data-class="gh-comments gh-canvas"
+            data-padding-bottom="48"></script>
+    <!-- 2) official giscus tag, unchanged -->
+    <script src="https://giscus.app/client.js"
+            data-repo="GreedyLabs/giscus-comment"
+            data-repo-id="R_kgDOTHbOrw"
+            data-category="ghost-giscus-plugin.greedylabs.kr"
+            data-category-id="DIC_kwDOTHbOr84DAegR"
+            data-mapping="pathname"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="top"
+            data-theme="preferred_color_scheme"
+            data-lang="es"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async>
+    </script>
+
+    <script>window.GGISC_I18N = {"copy":"Copiar","copyDone":"Copiado","slotLabel":"Bloque de comentarios"};</script>
+    <script src="/demo.js"></script>
+</body>
+</html>

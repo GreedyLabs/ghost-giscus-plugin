@@ -1,0 +1,43 @@
+# ghost-giscus-plugin
+
+> A tiny, dependency-free helper that places giscus comments at a spot you choose. It does not wrap or replace giscus: it only prepares the mount point (an element with the `giscus` class) at the position you configure, so the official giscus script finds it and mounts there. Works through Ghost code injection with no theme editing. MIT-licensed, by GreedyLabs.
+
+## Install
+
+Add two scripts to Ghost's Settings -> Code injection -> Site Footer. This plugin MUST come before the official giscus tag, because giscus decides where to mount the instant it runs:
+
+    <script src="https://cdn.jsdelivr.net/gh/GreedyLabs/ghost-giscus-plugin@1/giscus-mount.min.js"
+            data-target=".gh-content"
+            data-place="after"
+            data-class="gh-comments gh-canvas"
+            data-padding-bottom="48"></script>
+
+    <script src="https://giscus.app/client.js"
+            data-repo="[YOUR REPO]"
+            data-repo-id="[REPO ID]"
+            data-category="[CATEGORY]"
+            data-category-id="[CATEGORY ID]"
+            data-mapping="pathname"
+            data-theme="preferred_color_scheme"
+            crossorigin="anonymous"
+            async></script>
+
+Get the giscus values (repo, repo-id, category, category-id) from https://giscus.app.
+
+## Options
+
+All behavior is configured with `data-*` attributes on the plugin script tag:
+
+- `data-target` — CSS selector for the anchor element (e.g. `.gh-comments`)
+- `data-place` — `append`, `prepend`, `before`, `after`, or `replace`
+- `data-class` — extra class(es) on the mount wrapper (inherit theme styling)
+- `data-padding-top` / `data-padding-right` / `data-padding-bottom` / `data-padding-left` — wrapper padding in px
+
+The target selector's absence is the page guard: when it matches nothing (and no `.giscus` was placed manually), the plugin removes the sibling giscus script so comments do not fall back to the page footer. Pass `data-guard="false"` to opt out. `replace` clears the target and turns it into the giscus mount, which reproduces a theme's `<div class="gh-comments gh-canvas giscus"></div>` from code injection alone.
+
+## Links
+
+- Live demo and configurator: https://ghost-giscus-plugin.greedylabs.kr/en/
+- Source and issues: https://github.com/GreedyLabs/ghost-giscus-plugin
+- License: MIT (https://opensource.org/licenses/MIT)
+- Author: GreedyLabs (https://github.com/GreedyLabs)

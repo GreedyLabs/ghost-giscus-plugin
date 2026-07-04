@@ -1,0 +1,117 @@
+/* Styles for the ghost-giscus-plugin demo / configurator page only.
+   The distributed plugin (giscus-mount.js) ships no CSS of its own. */
+
+/* Light palette (default). JS sets data-theme="light"|"dark" on <html>; "system"
+   resolves to one of those and reacts to OS changes. giscus is kept in sync over
+   postMessage. --ghost-accent-color simulates a Ghost site. */
+:root {
+    --page-bg: #ffffff;
+    --ui-bg: #ffffff;
+    --ui-subtle: #f9fafb;
+    --ui-fg: #111827;
+    --ui-muted: #6b7280;
+    --ui-border: #e5e7eb;
+    --art-fg: #444444;
+    --hero-bg: #f1f3f5;
+    --hero-fg: #adb5bd;
+    --ghost-accent-color: #3b82f6;
+}
+
+:root[data-theme="dark"] {
+    --page-bg: #17181c;
+    --ui-bg: #232429;
+    --ui-subtle: #2b2c32;
+    --ui-fg: #e8eaed;
+    --ui-muted: #9aa0a6;
+    --ui-border: #34353b;
+    --art-fg: #c4c7cd;
+    --hero-bg: #232429;
+    --hero-fg: #6b7280;
+    --ghost-accent-color: #60a5fa;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; color: var(--ui-fg); background: var(--page-bg); line-height: 1.7;
+    transition: background-color .2s ease, color .2s ease;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif; }
+
+.panel {
+    position: fixed; left: 16px; top: 16px; width: 300px;
+    max-height: calc(100vh - 32px); overflow: auto; z-index: 1000;
+    background: var(--ui-bg); border: 1px solid var(--ui-border); border-radius: 12px;
+    padding: 16px; box-shadow: 0 6px 24px rgba(0,0,0,.08); font-size: 13px;
+}
+.panel h1 { font-size: 15px; margin: 0 0 12px; }
+
+/* language + theme — not plugin options, grouped at the top with a divider below */
+.panel-meta { margin: 0 0 14px; padding-bottom: 14px; border-bottom: 1px solid var(--ui-border); }
+.panel-meta .field.row { margin-bottom: 0; }
+
+.field { margin-bottom: 11px; }
+.field label { display: block; font-weight: 600; margin-bottom: 4px; }
+.field input[type=text], .field input[type=number], .field select {
+    width: 100%; padding: 6px 8px; border: 1px solid var(--ui-border);
+    border-radius: 7px; font: inherit; font-size: 13px;
+    background: var(--ui-bg); color: var(--ui-fg);
+}
+.presets { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; }
+.preset { font: inherit; font-size: 11px; padding: 3px 8px; cursor: pointer;
+    border: 1px solid var(--ui-border); border-radius: 6px;
+    background: var(--ui-subtle); color: var(--ui-muted); }
+.preset:hover { color: var(--ui-fg); }
+.field.row { display: flex; gap: 8px; align-items: flex-end; }
+.field.row > div { flex: 1; }
+
+.code { margin-top: 14px; }
+.code-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+.code-head strong { font-size: 12px; }
+.copy { font: inherit; font-size: 12px; padding: 4px 10px; border: 1px solid var(--ui-border);
+    background: var(--ui-subtle); color: var(--ui-fg); border-radius: 7px; cursor: pointer; }
+.copy:hover { filter: brightness(0.97); }
+.copy.ok { background: #ecfdf5; border-color: #a7f3d0; color: #047857; }
+pre { margin: 0; background: #0f172a; color: #e2e8f0; padding: 12px; border-radius: 8px;
+    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    font-size: 12.5px; line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: auto; white-space: pre; }
+.hint { color: var(--ui-muted); font-size: 11.5px; margin-top: 8px; }
+
+.panel-support { margin-top: 16px; padding-top: 16px; text-align: center;
+    border-top: 1px solid var(--ui-border); }
+.panel-support p { margin: 0 0 10px; font-size: 11.5px; line-height: 1.5;
+    color: var(--ui-muted); white-space: nowrap; }
+.panel-support a, .panel-support img { max-width: 100%; vertical-align: middle; }
+
+.demo-hero { max-width: 1080px; margin: 24px auto 0; height: 340px; border-radius: 14px;
+    background: var(--hero-bg); color: var(--hero-fg); border: 1px solid var(--ui-border);
+    display: flex; align-items: center; justify-content: center; font-weight: 500; letter-spacing: .02em; }
+.demo-article { max-width: 720px; margin: 40px auto 48px; padding: 0 24px; }
+.demo-article h1 { font-size: 2.2rem; }
+.demo-article h2 { margin-top: 2.4em; font-size: 1.6rem; }
+.demo-article h3 { margin-top: 1.6em; font-size: 1.25rem; }
+.demo-article p { margin: 1em 0; color: var(--art-fg); }
+.demo-article pre { margin: 1.2em 0; }
+.demo-article a { color: var(--ghost-accent-color); }
+
+/* Stand-in for the theme's comments slot (replace mode); our plugin mounts giscus
+   into it. Constrained to the reading column so the demo looks like a real post. */
+#demo-slot { max-width: 720px; margin: 0 auto; padding: 0 24px 120px; }
+#demo-slot .gh-comments { width: 100%; }
+.giscus, .giscus-frame { width: 100%; }
+
+/* The external giscus mount (append/prepend/before/after) centered like the article. */
+[data-greedylabs-giscus] { max-width: 720px; margin: 0 auto 100px; }
+.demo-article [data-greedylabs-giscus] { margin-bottom: 0; }
+
+/* Placeholder shown when the slot is not (yet) replaced by giscus. */
+.demo-slot-label {
+    display: block; padding: 28px; text-align: center;
+    color: var(--ui-muted); font-size: 13px;
+    border: 1px dashed var(--ui-border); border-radius: 10px;
+    background: var(--ui-subtle);
+}
+
+@media (max-width: 1100px) {
+    .panel { position: static; width: auto; max-height: none; margin: 16px; box-shadow: none; }
+    .demo-article { margin-top: 16px; }
+}

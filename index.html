@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ghost-giscus-plugin: place giscus comments anywhere</title>
+    <meta name="description" content="Keep the official giscus script as-is and pick where comments mount with one line. Works through Ghost code injection with no theme editing.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://ghost-giscus-plugin.greedylabs.kr/">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231a73e8'/%3E%3Cpath d='M8 9h16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-8l-5 4v-4H8a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2z' fill='white'/%3E%3C/svg%3E">
+    <link rel="alternate" hreflang="ko" href="https://ghost-giscus-plugin.greedylabs.kr/ko/">
+    <link rel="alternate" hreflang="en" href="https://ghost-giscus-plugin.greedylabs.kr/en/">
+    <link rel="alternate" hreflang="ja" href="https://ghost-giscus-plugin.greedylabs.kr/ja/">
+    <link rel="alternate" hreflang="zh" href="https://ghost-giscus-plugin.greedylabs.kr/zh/">
+    <link rel="alternate" hreflang="es" href="https://ghost-giscus-plugin.greedylabs.kr/es/">
+    <link rel="alternate" hreflang="fr" href="https://ghost-giscus-plugin.greedylabs.kr/fr/">
+    <link rel="alternate" hreflang="de" href="https://ghost-giscus-plugin.greedylabs.kr/de/">
+    <link rel="alternate" hreflang="pt" href="https://ghost-giscus-plugin.greedylabs.kr/pt/">
+    <link rel="alternate" hreflang="hi" href="https://ghost-giscus-plugin.greedylabs.kr/hi/">
+    <link rel="alternate" hreflang="x-default" href="https://ghost-giscus-plugin.greedylabs.kr/">
+    <script>
+        (function () {
+            var supported = ["ko","en","ja","zh","es","fr","de","pt","hi"];
+            var def = "en";
+            var n = ((navigator.languages && navigator.languages[0]) || navigator.language || def).toLowerCase();
+            var pick = def;
+            for (var i = 0; i < supported.length; i++) {
+                if (n === supported[i] || n.indexOf(supported[i] + '-') === 0) { pick = supported[i]; break; }
+            }
+            location.replace('/' + pick + '/');
+        })();
+    </script>
+</head>
+<body>
+    <noscript>
+        <p>Choose a language / 언어 선택:</p>
+        <ul><li><a href="/ko/">한국어</a></li><li><a href="/en/">English</a></li><li><a href="/ja/">日本語</a></li><li><a href="/zh/">中文</a></li><li><a href="/es/">Español</a></li><li><a href="/fr/">Français</a></li><li><a href="/de/">Deutsch</a></li><li><a href="/pt/">Português</a></li><li><a href="/hi/">हिन्दी</a></li></ul>
+    </noscript>
+    <p><a href="/en/">Continue in English →</a></p>
+</body>
+</html>
