@@ -1,9 +1,3 @@
-/* Styles for the ghost-giscus-plugin demo / configurator page only.
-   The distributed plugin (giscus-mount.js) ships no CSS of its own. */
-
-/* Light palette (default). JS sets data-theme="light"|"dark" on <html>; "system"
-   resolves to one of those and reacts to OS changes. giscus is kept in sync over
-   postMessage. --ghost-accent-color simulates a Ghost site. */
 :root {
     --page-bg: #ffffff;
     --ui-bg: #ffffff;
@@ -43,7 +37,6 @@ body { margin: 0; color: var(--ui-fg); background: var(--page-bg); line-height: 
 }
 .panel h1 { font-size: 15px; margin: 0 0 12px; }
 
-/* language + theme — not plugin options, grouped at the top with a divider below */
 .panel-meta { margin: 0 0 14px; padding-bottom: 14px; border-bottom: 1px solid var(--ui-border); }
 .panel-meta .field.row { margin-bottom: 0; }
 
@@ -85,8 +78,7 @@ pre { margin: 0; background: #0f172a; color: #e2e8f0; padding: 12px; border-radi
 .demo-hero { max-width: 1080px; margin: 24px auto 0; height: 340px; border-radius: 14px;
     background: var(--hero-bg); color: var(--hero-fg); border: 1px solid var(--ui-border);
     display: flex; align-items: center; justify-content: center; font-weight: 500; letter-spacing: .02em; }
-/* Uses the real gh-canvas grid (class added in build) so its 720px reading column
-   and the giscus mount below it line up exactly like a live Ghost post. */
+
 .demo-article { margin: 40px 0 48px; }
 .demo-article h1 { font-size: 2.2rem; }
 .demo-article h2 { margin-top: 2.4em; font-size: 1.6rem; }
@@ -94,7 +86,7 @@ pre { margin: 0; background: #0f172a; color: #e2e8f0; padding: 12px; border-radi
 .demo-article p { margin: 1em 0; color: var(--art-fg); }
 .demo-article pre { margin: 1.2em 0; }
 .demo-article a { color: var(--ghost-accent-color); }
-/* Inline code in prose, rendered in monospace so options stand out. */
+
 .demo-article p code, .demo-article li code {
     font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
     font-size: .86em; color: var(--ui-fg);
@@ -102,10 +94,6 @@ pre { margin: 0; background: #0f172a; color: #e2e8f0; padding: 12px; border-radi
     border-radius: 5px; padding: 1px 5px; word-break: break-word;
 }
 
-/* The real Ghost Source grid, copied verbatim from the site's screen.css, so the
-   comments area lines up with the article exactly like a live post. The theme has
-   NO .gh-comments rule (native comments are members-only), so gh-comments is just
-   a hook; all the alignment comes from gh-canvas. */
 .gh-canvas {
     --content-width: 720px; --container-width: 1200px; --container-gap: 4vmin;
     --main: min(var(--content-width), 100% - var(--container-gap) * 2);
@@ -121,11 +109,10 @@ pre { margin: 0; background: #0f172a; color: #e2e8f0; padding: 12px; border-radi
 .giscus, .giscus-frame { width: 100%; }
 
 #demo-slot { margin-bottom: 120px; }
-/* A mount without gh-canvas still lines up with the reading column. */
+
 [data-greedylabs-giscus]:not(.gh-canvas) { max-width: 720px; margin-left: auto; margin-right: auto; padding-left: 24px; padding-right: 24px; }
 body > [data-greedylabs-giscus] { margin-bottom: 120px; }
 
-/* Placeholder shown for the subscriber comments area before giscus replaces it. */
 .demo-slot-label {
     display: block; padding: 28px; text-align: center;
     color: var(--ui-muted); font-size: 13px;
@@ -133,7 +120,6 @@ body > [data-greedylabs-giscus] { margin-bottom: 120px; }
     background: var(--ui-subtle);
 }
 
-/* control-panel checkbox row */
 .field.check { display: flex; align-items: center; gap: 8px; margin-bottom: 11px; }
 .field.check label { margin: 0; font-weight: 600; }
 #demo-note { color: #b45309; }
