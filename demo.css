@@ -85,7 +85,9 @@ pre { margin: 0; background: #0f172a; color: #e2e8f0; padding: 12px; border-radi
 .demo-hero { max-width: 1080px; margin: 24px auto 0; height: 340px; border-radius: 14px;
     background: var(--hero-bg); color: var(--hero-fg); border: 1px solid var(--ui-border);
     display: flex; align-items: center; justify-content: center; font-weight: 500; letter-spacing: .02em; }
-.demo-article { max-width: 720px; margin: 40px auto 48px; padding: 0 24px; }
+/* Uses the real gh-canvas grid (class added in build) so its 720px reading column
+   and the giscus mount below it line up exactly like a live Ghost post. */
+.demo-article { margin: 40px 0 48px; }
 .demo-article h1 { font-size: 2.2rem; }
 .demo-article h2 { margin-top: 2.4em; font-size: 1.6rem; }
 .demo-article h3 { margin-top: 1.6em; font-size: 1.25rem; }
@@ -93,23 +95,43 @@ pre { margin: 0; background: #0f172a; color: #e2e8f0; padding: 12px; border-radi
 .demo-article pre { margin: 1.2em 0; }
 .demo-article a { color: var(--ghost-accent-color); }
 
-/* Stand-in for the theme's comments slot (replace mode); our plugin mounts giscus
-   into it. Constrained to the reading column so the demo looks like a real post. */
-#demo-slot { max-width: 720px; margin: 0 auto; padding: 0 24px 120px; }
-#demo-slot .gh-comments { width: 100%; }
+/* The real Ghost Source grid, copied verbatim from the site's screen.css, so the
+   comments area lines up with the article exactly like a live post. The theme has
+   NO .gh-comments rule (native comments are members-only), so gh-comments is just
+   a hook; all the alignment comes from gh-canvas. */
+.gh-canvas {
+    --content-width: 720px; --container-width: 1200px; --container-gap: 4vmin;
+    --main: min(var(--content-width), 100% - var(--container-gap) * 2);
+    --wide: minmax(0, calc((var(--container-width) - var(--content-width)) / 2));
+    --full: minmax(var(--container-gap), 1fr);
+    display: grid;
+    grid-template-columns:
+        [full-start] var(--full) [wide-start] var(--wide)
+        [main-start] var(--main) [main-end]
+        var(--wide) [wide-end] var(--full) [full-end];
+}
+.gh-canvas > * { grid-column: main; }
+.gh-comments { margin-top: 40px; }
 .giscus, .giscus-frame { width: 100%; }
 
-/* The external giscus mount (append/prepend/before/after) centered like the article. */
-[data-greedylabs-giscus] { max-width: 720px; margin: 0 auto 100px; }
-.demo-article [data-greedylabs-giscus] { margin-bottom: 0; }
+#demo-slot { margin-bottom: 100px; }
+/* A mount without gh-canvas still lines up with the reading column. */
+[data-greedylabs-giscus]:not(.gh-canvas) { max-width: 720px; margin-left: auto; margin-right: auto; padding-left: 24px; padding-right: 24px; }
+body > [data-greedylabs-giscus] { margin-bottom: 100px; }
 
-/* Placeholder shown when the slot is not (yet) replaced by giscus. */
+/* Placeholder shown for the subscriber comments area before giscus replaces it. */
 .demo-slot-label {
     display: block; padding: 28px; text-align: center;
     color: var(--ui-muted); font-size: 13px;
     border: 1px dashed var(--ui-border); border-radius: 10px;
     background: var(--ui-subtle);
 }
+
+/* control-panel checkbox row */
+.field.check { display: flex; align-items: center; gap: 8px; margin-bottom: 11px; }
+.field.check label { margin: 0; font-weight: 600; }
+#demo-note { color: #b45309; }
+:root[data-theme="dark"] #demo-note { color: #fbbf24; }
 
 @media (max-width: 1100px) {
     .panel { position: static; width: auto; max-height: none; margin: 16px; box-shadow: none; }

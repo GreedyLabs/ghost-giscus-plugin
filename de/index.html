@@ -150,6 +150,11 @@
                 <option value="replace">Ersetzen (replace)</option>
             </select>
         </div>
+        <div class="field check">
+            <input type="checkbox" id="f-show-comments">
+            <label for="f-show-comments">Kommentarbereich für Abonnenten anzeigen</label>
+        </div>
+        <p id="demo-note" class="hint" hidden></p>
         <div class="field">
             <label for="f-class">Zu erbende Klasse <span style="font-weight:400;color:var(--ui-muted)">(optional)</span></label>
             <input type="text" id="f-class" value="gh-comments gh-canvas" placeholder="gh-comments gh-canvas">
@@ -176,11 +181,11 @@
         </div>
     </aside>
 
-    <div class="demo-hero">Bereich für das Beitragsbild</div>
+    <div class="demo-hero">Beitragsbild</div>
 
-    <article class="demo-article">
+    <article class="demo-article gh-content gh-canvas">
         <h1>ghost-giscus-plugin Vorschau</h1>
-        <p>Die Kommentare auf dieser Seite haben den Kommentarblock unten ersetzt, dorthin gesetzt von genau diesem Plugin. Ändere Platzierung und Abstand im Panel, und die echten Kommentare bewegen sich entsprechend mit.</p>
+        <p>Standardmäßig hat dieses Plugin die Kommentare auf dieser Seite direkt nach dem Artikeltext platziert. Ändere Platzierung, Abstand und ob es einen Kommentarbereich für Abonnenten gibt im linken Panel, und die echten Kommentare bewegen sich entsprechend mit.</p>
 
         <h2>Einführung</h2>
         <p>giscus hängt Kommentare in jedes Element der Seite ein, das die giscus-Klasse trägt. Dieses Plugin erstellt dieses Element nur an der gewünschten Stelle. Die Kommentare selbst werden weiterhin von giscus bereitgestellt und in GitHub Discussions gespeichert, es wird also nichts neu implementiert.</p>
@@ -202,24 +207,33 @@
         data-theme="preferred_color_scheme"
         crossorigin="anonymous"
         async&gt;&lt;/script&gt;</code></pre>
-
-        <h2>Die Reihenfolge zählt</h2>
+        <h3>Die Reihenfolge zählt</h3>
         <p>Dieses Plugin muss vor dem giscus-Skript stehen. giscus entscheidet im Moment der Ausführung, wo es einhängt, indem es nach einem giscus-Element sucht, also muss unser Skript diese Stelle zuerst erstellen. Kehrt man die Reihenfolge um, landen die Kommentare beim Skript-Tag.</p>
-
-        <h2>Optionen</h2>
-        <p>Die Platzierung wird über drei Achsen ausgedrückt: an welchem Element verankert wird (data-target), wo um es herum angehängt wird (data-place) und das Styling des Mount-Wrappers. Nutze data-class, um das Kommentar-Styling deines Themes zu erben, und data-padding-bottom, um den Abstand direkt zu setzen.</p>
+        <h3>Optionen</h3>
+        <p>Alles wird über Optionen am Script-Tag gesetzt: an welchem Element verankert wird (data-target), wo um es herum angehängt wird (data-place, eines von replace, append, prepend, before, after), die Klasse oder Klassen, die dem Mount-Wrapper hinzugefügt werden (data-class, durch Leerzeichen getrennt, sodass du mehrere angeben und das Styling deines Themes erben kannst), und die vier Seiten des Abstands (data-padding-top, data-padding-right, data-padding-bottom, data-padding-left, in px). Wird das Zielelement nicht gefunden, entfernt eine Seiten-Schutzfunktion das giscus-Skript, damit die Kommentare nicht an der falschen Stelle landen; abschalten lässt sie sich mit data-guard="false".</p>
         <pre><code>data-target=".gh-content"
 data-place="after"
 data-class="gh-comments gh-canvas"
 data-padding-bottom="48"</code></pre>
 
+        <h2>Eine Stelle wählen</h2>
+        <p>Zwei Formen decken die meisten Fälle ab: die Kommentare direkt nach dem Artikel platzieren oder einen vorhandenen Kommentarblock ersetzen. Beide werden unten nacheinander durchgegangen.</p>
+        <h3>Nach dem Artikel platzieren</h3>
+        <p>Die empfohlene Vorgabe ist data-target=".gh-content" data-place="after" data-class="gh-comments gh-canvas" data-padding-bottom="48". Sie erstellt den Mount-Punkt direkt nach dem Artikeltext (.gh-content) und erbt die Theme-Klassen gh-comments gh-canvas, sodass Abstand und Breite nativ wirken. Das ist die sicherste Wahl, weil der Artikeltext auf jeder Seite immer vorhanden ist. Anders als ein nur Mitgliedern vorbehaltener Kommentarbereich, der ausgeblendet sein kann, verschwindet das Ziel nie, also verhält es sich überall gleich.</p>
+        <pre><code>&lt;script src="https://cdn.jsdelivr.net/gh/GreedyLabs/ghost-giscus-plugin@1/giscus-mount.min.js"
+        data-target=".gh-content"
+        data-place="after"
+        data-class="gh-comments gh-canvas"
+        data-padding-bottom="48"&gt;&lt;/script&gt;</code></pre>
+        <h3>Einen vorhandenen Kommentarblock ersetzen</h3>
+        <p>Hat dein Theme bereits einen Kommentarblock, nutze dessen Stelle mit data-target=".gh-comments" data-place="replace" wieder. Das reproduziert &lt;div class="gh-comments gh-canvas giscus"&gt;&lt;/div&gt; allein per code injection, ohne das Theme zu bearbeiten, sodass du Position und Styling erbst, die das Theme bereits festgelegt hat. Greif dazu, wenn ein passender Block existiert. Der Vorbehalt: Ghosts native Kommentare sind nur für Mitglieder, auf Seiten, die sie deaktivieren, kann das Element .gh-comments also gar nicht existieren. Nutze in dem Fall die obige Vorgabe, die nach dem Artikel platziert.</p>
+        <pre><code>&lt;script src="https://cdn.jsdelivr.net/gh/GreedyLabs/ghost-giscus-plugin@1/giscus-mount.min.js"
+        data-target=".gh-comments"
+        data-place="replace"&gt;&lt;/script&gt;</code></pre>
+
         <h2>giscus-Einrichtung</h2>
         <p>Der Repository-Link, die Kategorie und die repo-id stammen von der offiziellen giscus-Seite. Gib dort dein Repository ein, und es erstellt das giscus-Tag zum Einfügen.</p>
         <p><a href="https://giscus.app" target="_blank" rel="noopener">Auf giscus.app konfigurieren →</a></p>
-
-        <h2>Eine Stelle wählen</h2>
-        <p>Der eingebaute Kommentarbereich von Ghost wird bei manchen Themes nur für Mitglieder gerendert, dieses Element kann also fehlen. Sich am Artikeltext oder am article-Tag zu verankern, die immer vorhanden sind, ist sicherer. Um einen vorhandenen Kommentarblock wiederzuverwenden, setze data-place="replace", um ihn zu leeren und als Mount-Punkt zu nutzen.</p>
-        <pre><code>&lt;div class="gh-comments gh-canvas giscus"&gt;&lt;/div&gt;</code></pre>
 
         <h2>Häufige Fragen</h2>
         <h4>Die Kommentare erscheinen beim Skript-Tag, nicht dort, wo ich sie haben will.</h4>
@@ -236,7 +250,7 @@ data-padding-bottom="48"</code></pre>
     <!-- Stands in for the theme's native comments slot, shown only in replace
          mode where the plugin clears it and turns it into the giscus mount. -->
     <div id="demo-slot" hidden>
-        <div class="gh-comments gh-canvas"><span class="demo-slot-label">Kommentarblock</span></div>
+        <div class="gh-comments gh-canvas"><span class="demo-slot-label">Kommentarbereich für Abonnenten</span></div>
     </div>
 
     <!-- 1) our plugin, loaded FIRST so the .giscus mount exists before giscus runs -->
@@ -262,7 +276,7 @@ data-padding-bottom="48"</code></pre>
             async>
     </script>
 
-    <script>window.GGISC_I18N = {"copy":"Kopieren","copyDone":"Kopiert","slotLabel":"Kommentarblock"};</script>
+    <script>window.GGISC_I18N = {"copy":"Kopieren","copyDone":"Kopiert","slotLabel":"Kommentarbereich für Abonnenten","noteNoComments":"Es gibt keinen Kommentarbereich für Abonnenten, also hat replace kein Ziel. Aktiviere das Kästchen oben oder wähle eine andere Platzierung."};</script>
     <script src="/demo.js"></script>
 </body>
 </html>

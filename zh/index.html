@@ -150,6 +150,11 @@
                 <option value="replace">替换 (replace)</option>
             </select>
         </div>
+        <div class="field check">
+            <input type="checkbox" id="f-show-comments">
+            <label for="f-show-comments">显示订阅者评论区</label>
+        </div>
+        <p id="demo-note" class="hint" hidden></p>
         <div class="field">
             <label for="f-class">继承类名 <span style="font-weight:400;color:var(--ui-muted)">(可选)</span></label>
             <input type="text" id="f-class" value="gh-comments gh-canvas" placeholder="gh-comments gh-canvas">
@@ -176,11 +181,11 @@
         </div>
     </aside>
 
-    <div class="demo-hero">特色图片区域</div>
+    <div class="demo-hero">特色图片</div>
 
-    <article class="demo-article">
+    <article class="demo-article gh-content gh-canvas">
         <h1>ghost-giscus-plugin 预览</h1>
-        <p>本页的评论就是这个插件替换下方的评论区块后放上去的。在左侧面板改变位置和间距，实际的评论就会随之移动。</p>
+        <p>本页的评论是这个插件按默认设置放在正文正后方的。在左侧面板改变位置、间距以及是否存在订阅者评论区，实际的评论就会随之移动。</p>
 
         <h2>开始之前</h2>
         <p>只要页面上有带 giscus 类名的元素，giscus 就会把评论挂载到其中。这个插件只是在你想要的位置创建那个元素。评论的实际运行和存储仍由 giscus 和 GitHub Discussions 负责，所以不会重新实现任何东西。</p>
@@ -202,24 +207,33 @@
         data-theme="preferred_color_scheme"
         crossorigin="anonymous"
         async&gt;&lt;/script&gt;</code></pre>
-
-        <h2>顺序很重要</h2>
+        <h3>顺序很重要</h3>
         <p>这个插件必须放在 giscus 脚本之前。giscus 在运行的那一刻就会检查是否存在 giscus 元素并确定挂载位置，所以我们的脚本必须先把那个位置创建出来。顺序反了，评论就会落在脚本标签的位置上。</p>
-
-        <h2>选项设置</h2>
-        <p>位置由三个维度表达：以哪个元素为基准 (data-target)、附加到它周围的哪个位置 (data-place)，以及挂载包装器上的样式。用 data-class 继承主题的评论样式，用 data-padding-bottom 直接设置间距。</p>
+        <h3>选项设置</h3>
+        <p>所有行为都通过脚本标签上的选项配置：以哪个元素为基准 (data-target)、相对它附加到哪个位置 (data-place，取 replace、append、prepend、before、after 五种之一)、添加到挂载包装器上的类名 (data-class，以空格分隔，可添加多个以继承主题样式)，以及四个方向的内边距 (data-padding-top、data-padding-right、data-padding-bottom、data-padding-left，单位为 px)。当找不到目标元素时，页面守卫会移除 giscus 脚本，避免评论落到错误的位置；用 data-guard="false" 可以关闭它。</p>
         <pre><code>data-target=".gh-content"
 data-place="after"
 data-class="gh-comments gh-canvas"
 data-padding-bottom="48"</code></pre>
 
+        <h2>选择位置</h2>
+        <p>常见的做法有两种：把评论放在正文正后方，或替换已有的评论区块。下面依次介绍这两种。</p>
+        <h3>放在正文之后</h3>
+        <p>推荐的默认配置是 data-target=".gh-content" data-place="after" data-class="gh-comments gh-canvas" data-padding-bottom="48"。它在正文 (.gh-content) 正后方创建挂载点，并继承主题的 gh-comments gh-canvas 类名，因此间距和宽度看起来与主题浑然一体。这种做法最稳妥，因为正文在每个页面上都始终存在。与可能被隐藏、只对会员显示的评论区不同，这个目标不会消失，因此在任何地方都表现一致。</p>
+        <pre><code>&lt;script src="https://cdn.jsdelivr.net/gh/GreedyLabs/ghost-giscus-plugin@1/giscus-mount.min.js"
+        data-target=".gh-content"
+        data-place="after"
+        data-class="gh-comments gh-canvas"
+        data-padding-bottom="48"&gt;&lt;/script&gt;</code></pre>
+        <h3>替换已有的评论区块</h3>
+        <p>如果你的主题已经有评论区块，就用 data-target=".gh-comments" data-place="replace" 复用那个位置。这样无需修改主题文件，仅凭 code injection 就能重现 &lt;div class="gh-comments gh-canvas giscus"&gt;&lt;/div&gt;，从而继承主题已设定的位置与样式。当存在可匹配的区块时适合这样做。需要注意的是：Ghost 的原生评论仅对会员开放，所以在关闭该功能的站点上，.gh-comments 元素可能根本不存在。这时请改用上面放在正文之后的默认配置。</p>
+        <pre><code>&lt;script src="https://cdn.jsdelivr.net/gh/GreedyLabs/ghost-giscus-plugin@1/giscus-mount.min.js"
+        data-target=".gh-comments"
+        data-place="replace"&gt;&lt;/script&gt;</code></pre>
+
         <h2>giscus 设置</h2>
         <p>仓库连接、分类和 repo-id 等值在 giscus 官方站点获取。在下面输入你的仓库，它就会生成可直接粘贴的 giscus 标签。</p>
         <p><a href="https://giscus.app" target="_blank" rel="noopener">在 giscus.app 上配置 →</a></p>
-
-        <h2>选择位置</h2>
-        <p>在有些主题里，Ghost 内置的评论区只对会员渲染，所以那个元素可能不存在。以始终存在的正文或 article 标签作为基准会更稳妥。要复用已有的评论区块，把 data-place="replace" 设置为清空该元素并作为挂载点。</p>
-        <pre><code>&lt;div class="gh-comments gh-canvas giscus"&gt;&lt;/div&gt;</code></pre>
 
         <h2>常见问题</h2>
         <h4>评论出现在脚本标签处，而不是我想要的位置。</h4>
@@ -236,7 +250,7 @@ data-padding-bottom="48"</code></pre>
     <!-- Stands in for the theme's native comments slot, shown only in replace
          mode where the plugin clears it and turns it into the giscus mount. -->
     <div id="demo-slot" hidden>
-        <div class="gh-comments gh-canvas"><span class="demo-slot-label">评论区块</span></div>
+        <div class="gh-comments gh-canvas"><span class="demo-slot-label">订阅者评论区</span></div>
     </div>
 
     <!-- 1) our plugin, loaded FIRST so the .giscus mount exists before giscus runs -->
@@ -262,7 +276,7 @@ data-padding-bottom="48"</code></pre>
             async>
     </script>
 
-    <script>window.GGISC_I18N = {"copy":"复制","copyDone":"已复制","slotLabel":"评论区块"};</script>
+    <script>window.GGISC_I18N = {"copy":"复制","copyDone":"已复制","slotLabel":"订阅者评论区","noteNoComments":"没有订阅者评论区，replace 没有可作用的目标。请打开上面的复选框，或选择其他位置。"};</script>
     <script src="/demo.js"></script>
 </body>
 </html>

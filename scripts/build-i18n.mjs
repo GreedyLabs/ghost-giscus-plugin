@@ -59,9 +59,19 @@ data-place="after"
 data-class="gh-comments gh-canvas"
 data-padding-bottom="48"`;
 
-// The theme markup the replace mode reproduces (comments slot as the giscus mount)
+// The recommended default: place giscus right after the article body.
+const CODE_AFTER =
+`<script src="${CDN}/giscus-mount.min.js"
+        data-target=".gh-content"
+        data-place="after"
+        data-class="gh-comments gh-canvas"
+        data-padding-bottom="48"></script>`;
+
+// Reuse a theme's existing comments slot as the giscus mount.
 const CODE_REPLACE =
-`<div class="gh-comments gh-canvas giscus"></div>`;
+`<script src="${CDN}/giscus-mount.min.js"
+        data-target=".gh-comments"
+        data-place="replace"></script>`;
 
 const FAVICON = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231a73e8'/%3E%3Cpath d='M8 9h16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-8l-5 4v-4H8a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2z' fill='white'/%3E%3C/svg%3E";
 
@@ -129,7 +139,7 @@ function jsonld(lang, t, url) {
 function page(lang) {
   const t = data.langs[lang];
   const url = `${ORIGIN}/${lang}/`;
-  const i18nJson = JSON.stringify({ copy: t.copy, copyDone: t.copyDone, slotLabel: t.slotLabel });
+  const i18nJson = JSON.stringify({ copy: t.copy, copyDone: t.copyDone, slotLabel: t.slotLabel, noteNoComments: t.noteNoComments });
   return `<!DOCTYPE html>
 <html lang="${lang}">
 <head>
@@ -220,6 +230,11 @@ ${jsonld(lang, t, url)}
                 <option value="replace">${esc(t.optReplace)}</option>
             </select>
         </div>
+        <div class="field check">
+            <input type="checkbox" id="f-show-comments">
+            <label for="f-show-comments">${esc(t.lblShowComments)}</label>
+        </div>
+        <p id="demo-note" class="hint" hidden></p>
         <div class="field">
             <label for="f-class">${esc(t.lblClass)} <span style="font-weight:400;color:var(--ui-muted)">${esc(t.hintClass)}</span></label>
             <input type="text" id="f-class" value="gh-comments gh-canvas" placeholder="gh-comments gh-canvas">
@@ -248,7 +263,7 @@ ${jsonld(lang, t, url)}
 
     <div class="demo-hero">${esc(t.heroText)}</div>
 
-    <article class="demo-article">
+    <article class="demo-article gh-content gh-canvas">
         <h1>${esc(t.demoTitle)}</h1>
         <p>${esc(t.demoIntro)}</p>
 
@@ -258,21 +273,24 @@ ${jsonld(lang, t, url)}
         <h2>${esc(t.h_install)}</h2>
         <p>${esc(t.bodyInstall)}</p>
         <pre><code>${esc(codeInstall(t))}</code></pre>
-
-        <h2>${esc(t.h_ordering)}</h2>
+        <h3>${esc(t.h_ordering)}</h3>
         <p>${esc(t.bodyOrdering)}</p>
-
-        <h2>${esc(t.h_options)}</h2>
+        <h3>${esc(t.h_options)}</h3>
         <p>${esc(t.bodyOptions)}</p>
         <pre><code>${esc(CODE_OPTIONS)}</code></pre>
+
+        <h2>${esc(t.h_placement)}</h2>
+        <p>${esc(t.bodyPlacement)}</p>
+        <h3>${esc(t.h_placeAfter)}</h3>
+        <p>${esc(t.bodyPlaceAfter)}</p>
+        <pre><code>${esc(CODE_AFTER)}</code></pre>
+        <h3>${esc(t.h_placeReplace)}</h3>
+        <p>${esc(t.bodyPlaceReplace)}</p>
+        <pre><code>${esc(CODE_REPLACE)}</code></pre>
 
         <h2>${esc(t.h_setup)}</h2>
         <p>${esc(t.bodySetup)}</p>
         <p><a href="https://giscus.app" target="_blank" rel="noopener">${esc(t.setupLink)} →</a></p>
-
-        <h2>${esc(t.h_placement)}</h2>
-        <p>${esc(t.bodyPlacement)}</p>
-        <pre><code>${esc(CODE_REPLACE)}</code></pre>
 
         <h2>${esc(t.h_faq)}</h2>
         <h4>${esc(t.faqQ1)}</h4>

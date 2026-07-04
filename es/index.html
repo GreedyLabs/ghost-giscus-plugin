@@ -150,6 +150,11 @@
                 <option value="replace">Reemplazar (replace)</option>
             </select>
         </div>
+        <div class="field check">
+            <input type="checkbox" id="f-show-comments">
+            <label for="f-show-comments">Mostrar el área de comentarios para suscriptores</label>
+        </div>
+        <p id="demo-note" class="hint" hidden></p>
         <div class="field">
             <label for="f-class">Clase a heredar <span style="font-weight:400;color:var(--ui-muted)">(opcional)</span></label>
             <input type="text" id="f-class" value="gh-comments gh-canvas" placeholder="gh-comments gh-canvas">
@@ -176,11 +181,11 @@
         </div>
     </aside>
 
-    <div class="demo-hero">Área de imagen destacada</div>
+    <div class="demo-hero">Imagen destacada</div>
 
-    <article class="demo-article">
+    <article class="demo-article gh-content gh-canvas">
         <h1>Vista previa de ghost-giscus-plugin</h1>
-        <p>Los comentarios de esta página reemplazaron el bloque de comentarios de abajo, colocados ahí por este mismo plugin. Cambia la ubicación y el margen en el panel y los comentarios reales se mueven en consecuencia.</p>
+        <p>Por defecto, este plugin colocó los comentarios de esta página justo después del cuerpo del artículo. Cambia la ubicación, el margen y si existe un área de comentarios para suscriptores en el panel izquierdo, y los comentarios reales se mueven en consecuencia.</p>
 
         <h2>Introducción</h2>
         <p>giscus monta los comentarios en cualquier elemento de la página que tenga la clase giscus. Este plugin solo crea ese elemento en el lugar que quieras. Los comentarios en sí los siguen sirviendo giscus y almacenando GitHub Discussions, así que no se reimplementa nada.</p>
@@ -202,24 +207,33 @@
         data-theme="preferred_color_scheme"
         crossorigin="anonymous"
         async&gt;&lt;/script&gt;</code></pre>
-
-        <h2>El orden importa</h2>
+        <h3>El orden importa</h3>
         <p>Este plugin debe ir antes que el script de giscus. giscus decide dónde montar en el instante en que se ejecuta, comprobando si hay un elemento giscus, así que nuestro script tiene que crear ese lugar primero. Si inviertes el orden, los comentarios acaban en la etiqueta del script.</p>
-
-        <h2>Opciones</h2>
-        <p>La ubicación se expresa en tres ejes: a qué elemento anclarse (data-target), en qué punto a su alrededor adjuntarse (data-place) y el estilo del contenedor de montaje. Usa data-class para heredar el estilo de los comentarios de tu tema y data-padding-bottom para fijar el espaciado directamente.</p>
+        <h3>Opciones</h3>
+        <p>Todo se configura con opciones en la etiqueta del script: a qué elemento anclarse (data-target), en qué punto a su alrededor adjuntarse (data-place, uno de replace, append, prepend, before, after), la clase o clases que se añaden al contenedor de montaje (data-class, separadas por espacios para poder poner varias y heredar el estilo de tu tema) y los cuatro lados del relleno (data-padding-top, data-padding-right, data-padding-bottom, data-padding-left, en px). Cuando no se encuentra el elemento objetivo, una guarda de página elimina el script de giscus para que los comentarios no acaben en el lugar equivocado; desactívala con data-guard="false".</p>
         <pre><code>data-target=".gh-content"
 data-place="after"
 data-class="gh-comments gh-canvas"
 data-padding-bottom="48"</code></pre>
 
+        <h2>Elegir un lugar</h2>
+        <p>Dos formas cubren la mayoría de los casos: colocar los comentarios justo después del artículo, o reemplazar un bloque de comentarios existente. Ambas se repasan a continuación, una por una.</p>
+        <h3>Colocarlo después del artículo</h3>
+        <p>La opción predeterminada recomendada es data-target=".gh-content" data-place="after" data-class="gh-comments gh-canvas" data-padding-bottom="48". Crea el punto de montaje justo después del cuerpo del artículo (.gh-content) y hereda las clases gh-comments gh-canvas del tema, de modo que el espaciado y el ancho se ven nativos. Es la opción más segura porque el cuerpo del artículo siempre existe en cada página. A diferencia de un área de comentarios solo para miembros que puede quedar oculta, el objetivo nunca desaparece, así que se comporta igual en todas partes.</p>
+        <pre><code>&lt;script src="https://cdn.jsdelivr.net/gh/GreedyLabs/ghost-giscus-plugin@1/giscus-mount.min.js"
+        data-target=".gh-content"
+        data-place="after"
+        data-class="gh-comments gh-canvas"
+        data-padding-bottom="48"&gt;&lt;/script&gt;</code></pre>
+        <h3>Reemplazar un bloque de comentarios existente</h3>
+        <p>Si tu tema ya tiene un bloque de comentarios, reutiliza su sitio con data-target=".gh-comments" data-place="replace". Esto reproduce &lt;div class="gh-comments gh-canvas giscus"&gt;&lt;/div&gt; solo con code injection, sin editar el tema, de modo que heredas la posición y el estilo que el tema ya definió. Úsalo cuando exista un bloque que coincida. La salvedad: los comentarios nativos de Ghost son solo para miembros, así que en sitios que los desactivan el elemento .gh-comments puede no existir en absoluto. En ese caso, usa la opción de colocar después del artículo de arriba.</p>
+        <pre><code>&lt;script src="https://cdn.jsdelivr.net/gh/GreedyLabs/ghost-giscus-plugin@1/giscus-mount.min.js"
+        data-target=".gh-comments"
+        data-place="replace"&gt;&lt;/script&gt;</code></pre>
+
         <h2>Configuración de giscus</h2>
         <p>El enlace del repositorio, la categoría y el repo-id vienen del sitio oficial de giscus. Introduce ahí tu repositorio y te genera la etiqueta de giscus lista para pegar.</p>
         <p><a href="https://giscus.app" target="_blank" rel="noopener">Configurar en giscus.app →</a></p>
-
-        <h2>Elegir un lugar</h2>
-        <p>El área de comentarios integrada de Ghost solo se renderiza para los miembros en algunos temas, así que ese elemento puede no existir. Anclarse al cuerpo del artículo o a la etiqueta article, que siempre existen, es más seguro. Para reutilizar un bloque de comentarios existente, pon data-place="replace" para vaciarlo y usarlo como punto de montaje.</p>
-        <pre><code>&lt;div class="gh-comments gh-canvas giscus"&gt;&lt;/div&gt;</code></pre>
 
         <h2>Preguntas frecuentes</h2>
         <h4>Los comentarios aparecen en la etiqueta del script, no donde los quiero.</h4>
@@ -236,7 +250,7 @@ data-padding-bottom="48"</code></pre>
     <!-- Stands in for the theme's native comments slot, shown only in replace
          mode where the plugin clears it and turns it into the giscus mount. -->
     <div id="demo-slot" hidden>
-        <div class="gh-comments gh-canvas"><span class="demo-slot-label">Bloque de comentarios</span></div>
+        <div class="gh-comments gh-canvas"><span class="demo-slot-label">Área de comentarios para suscriptores</span></div>
     </div>
 
     <!-- 1) our plugin, loaded FIRST so the .giscus mount exists before giscus runs -->
@@ -262,7 +276,7 @@ data-padding-bottom="48"</code></pre>
             async>
     </script>
 
-    <script>window.GGISC_I18N = {"copy":"Copiar","copyDone":"Copiado","slotLabel":"Bloque de comentarios"};</script>
+    <script>window.GGISC_I18N = {"copy":"Copiar","copyDone":"Copiado","slotLabel":"Área de comentarios para suscriptores","noteNoComments":"No hay área de comentarios para suscriptores, así que replace no tiene nada que sustituir. Activa la casilla de arriba o elige otra ubicación."};</script>
     <script src="/demo.js"></script>
 </body>
 </html>

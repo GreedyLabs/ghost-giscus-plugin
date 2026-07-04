@@ -150,6 +150,11 @@
                 <option value="replace">置き換え (replace)</option>
             </select>
         </div>
+        <div class="field check">
+            <input type="checkbox" id="f-show-comments">
+            <label for="f-show-comments">購読者向けコメント欄を表示</label>
+        </div>
+        <p id="demo-note" class="hint" hidden></p>
         <div class="field">
             <label for="f-class">継承クラス <span style="font-weight:400;color:var(--ui-muted)">(任意)</span></label>
             <input type="text" id="f-class" value="gh-comments gh-canvas" placeholder="gh-comments gh-canvas">
@@ -176,11 +181,11 @@
         </div>
     </aside>
 
-    <div class="demo-hero">アイキャッチ画像エリア</div>
+    <div class="demo-hero">アイキャッチ画像</div>
 
-    <article class="demo-article">
+    <article class="demo-article gh-content gh-canvas">
         <h1>ghost-giscus-plugin プレビュー</h1>
-        <p>このページのコメントは、下のコメントブロックの位置をこのプラグインが置き換えて表示したものです。左のパネルで位置や余白を変えると、実際のコメントもそれに合わせて動きます。</p>
+        <p>このページのコメントは、既定に従ってこのプラグインが本文のすぐ後ろに配置したものです。左のパネルで位置や余白、購読者向けコメント欄の有無を変えると、実際のコメントもそれに合わせて動きます。</p>
 
         <h2>はじめに</h2>
         <p>giscus は、ページ上に giscus クラスを持つ要素があると、その中にコメントをマウントします。このプラグインは、その要素を好きな位置に作るだけです。コメントの実際の動作と保存は引き続き giscus と GitHub Discussions が担うため、何かを新たに実装することはありません。</p>
@@ -202,24 +207,33 @@
         data-theme="preferred_color_scheme"
         crossorigin="anonymous"
         async&gt;&lt;/script&gt;</code></pre>
-
-        <h2>順序が重要です</h2>
+        <h3>順序が重要です</h3>
         <p>このプラグインのスクリプトは、必ず giscus スクリプトより先に置く必要があります。giscus は実行された瞬間に giscus 要素があるかを確認して位置を決めるため、こちらのスクリプトが先にその場所を作っておかなければなりません。順序が逆になると、コメントがスクリプトタグの位置に付いてしまいます。</p>
-
-        <h2>オプション設定</h2>
-        <p>配置は三つの軸で表現します。どの要素を基準にするか (data-target)、その要素のどこに付けるか (data-place)、そしてマウント用ラッパーに与えるスタイルです。テーマのコメント欄のスタイルを継承するには data-class でクラスを指定し、余白は data-padding-bottom で直接指定します。</p>
+        <h3>オプション設定</h3>
+        <p>動作はすべてスクリプトタグのオプションで設定します。どの要素を基準にするか (data-target)、その要素を基準にどこへ付けるか (data-place: replace, append, prepend, before, after の五種類)、マウント用ラッパーに付けるクラス (data-class、空白区切りで複数指定でき、テーマのスタイルをそのまま継承します)、そして四方向の余白 (data-padding-top, data-padding-right, data-padding-bottom, data-padding-left、単位は px) です。基準要素が見つからない場合は、ページガードが giscus スクリプトを取り除き、コメントが誤った場所に付くのを防ぎます。この動作が不要なら data-guard="false" で無効にします。</p>
         <pre><code>data-target=".gh-content"
 data-place="after"
 data-class="gh-comments gh-canvas"
 data-padding-bottom="48"</code></pre>
 
+        <h2>位置を決める</h2>
+        <p>よく使う形は二つです。一つは本文のすぐ後ろに置く方法、もう一つは既存のコメントブロックをそのまま置き換える方法です。以下で順に見ていきます。</p>
+        <h3>本文の後ろに置く</h3>
+        <p>推奨される既定値は data-target=".gh-content" data-place="after" data-class="gh-comments gh-canvas" data-padding-bottom="48" です。本文 (.gh-content) のすぐ後ろにマウント地点を作り、テーマの gh-comments gh-canvas クラスを継承するので、余白も幅もテーマになじんだ見た目になります。この方法が最も安全なのは、本文はどのページにも必ず存在するからです。購読者にしか表示されず隠れてしまうことのあるコメント欄と違い、対象が消える心配がなく、どこでも同じように動作します。</p>
+        <pre><code>&lt;script src="https://cdn.jsdelivr.net/gh/GreedyLabs/ghost-giscus-plugin@1/giscus-mount.min.js"
+        data-target=".gh-content"
+        data-place="after"
+        data-class="gh-comments gh-canvas"
+        data-padding-bottom="48"&gt;&lt;/script&gt;</code></pre>
+        <h3>既存のコメントブロックを置き換える</h3>
+        <p>テーマにすでにコメントブロックがある場合は、data-target=".gh-comments" data-place="replace" でその場所を再利用します。テーマファイルを触らず、code injection だけで &lt;div class="gh-comments gh-canvas giscus"&gt;&lt;/div&gt; をそのまま再現できるので、テーマが定めた位置とスタイルを引き継げます。合致するブロックがあるときに向いています。ただし注意点として、Ghost の標準コメントは購読者向けのため、それを無効にしているサイトでは .gh-comments 要素そのものが存在しないことがあります。その場合は上の本文の後ろに置く既定値を使ってください。</p>
+        <pre><code>&lt;script src="https://cdn.jsdelivr.net/gh/GreedyLabs/ghost-giscus-plugin@1/giscus-mount.min.js"
+        data-target=".gh-comments"
+        data-place="replace"&gt;&lt;/script&gt;</code></pre>
+
         <h2>giscus の設定</h2>
         <p>リポジトリの連携やカテゴリ、repo-id などの値は、giscus 公式サイトで発行します。下でリポジトリを入力すると、貼り付ける giscus タグをそのまま生成します。</p>
         <p><a href="https://giscus.app" target="_blank" rel="noopener">giscus.app で設定する →</a></p>
-
-        <h2>位置を決める</h2>
-        <p>Ghost の標準コメント欄は、テーマによってはメンバーにしか表示されないため、その要素が存在しないことがあります。そのため、常に存在する本文や article タグを基準にする方が安全です。既存のコメントブロックをそのまま置き換えるには、data-place="replace" でその要素を空にし、マウント地点として使います。</p>
-        <pre><code>&lt;div class="gh-comments gh-canvas giscus"&gt;&lt;/div&gt;</code></pre>
 
         <h2>よくある質問</h2>
         <h4>コメントが思った場所ではなく、スクリプトの位置に付いてしまいます。</h4>
@@ -236,7 +250,7 @@ data-padding-bottom="48"</code></pre>
     <!-- Stands in for the theme's native comments slot, shown only in replace
          mode where the plugin clears it and turns it into the giscus mount. -->
     <div id="demo-slot" hidden>
-        <div class="gh-comments gh-canvas"><span class="demo-slot-label">コメントブロック</span></div>
+        <div class="gh-comments gh-canvas"><span class="demo-slot-label">購読者向けコメント欄</span></div>
     </div>
 
     <!-- 1) our plugin, loaded FIRST so the .giscus mount exists before giscus runs -->
@@ -262,7 +276,7 @@ data-padding-bottom="48"</code></pre>
             async>
     </script>
 
-    <script>window.GGISC_I18N = {"copy":"コピー","copyDone":"コピーしました","slotLabel":"コメントブロック"};</script>
+    <script>window.GGISC_I18N = {"copy":"コピー","copyDone":"コピーしました","slotLabel":"購読者向けコメント欄","noteNoComments":"購読者向けコメント欄がないため、replace の対象がありません。上のチェックボックスをオンにするか、別の位置を選んでください。"};</script>
     <script src="/demo.js"></script>
 </body>
 </html>

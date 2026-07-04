@@ -54,6 +54,7 @@ All set as `data-*` attributes on the **plugin** `<script>` tag.
 | `data-padding-right` | — | Wrapper `padding-right` in px |
 | `data-padding-bottom` | — | Wrapper `padding-bottom` in px |
 | `data-padding-left` | — | Wrapper `padding-left` in px |
+| `data-guard` | `true` | `false` keeps giscus on pages where the target is missing |
 | `data-auto` | `true` | Set to `false` to skip auto-init |
 
 ### Placement modes

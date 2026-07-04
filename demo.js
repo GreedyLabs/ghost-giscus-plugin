@@ -4,9 +4,10 @@
    class/padding tweaks mutate the mount in place. None of this ships. */
 (function () {
     var CDN = 'https://cdn.jsdelivr.net/gh/GreedyLabs/ghost-giscus-plugin@1';
-    var I = window.GGISC_I18N || { copy: '복사', copyDone: '복사됨', slotLabel: '댓글 블럭' };
+    var I = window.GGISC_I18N || { copy: '복사', copyDone: '복사됨', slotLabel: '구독자용 댓글 영역', noteNoComments: '' };
     var $ = function (id) { return document.getElementById(id); };
 
+    // Stand-in for Ghost's members-only comments area (may not exist on a real site).
     var SLOT_HTML = '<div class="gh-comments gh-canvas"><span class="demo-slot-label">' + I.slotLabel + '</span></div>';
     // capture the demo's original giscus config so we can re-run it on placement change
     var GISCUS_ATTRS = {};
@@ -36,23 +37,24 @@
             paddingTop: intField('f-pad-top', 0),
             paddingRight: intField('f-pad-right', 0),
             paddingBottom: intField('f-pad-bottom', 0),
-            paddingLeft: intField('f-pad-left', 0)
+            paddingLeft: intField('f-pad-left', 0),
+            showComments: $('f-show-comments').checked
         };
     }
 
-    // The comments slot only exists for replace mode; other modes anchor to the
-    // article. The target field only shapes the snippet.
+    // replace targets the subscriber comments area; other modes anchor to the article.
+    // The target field only shapes the snippet.
     function liveTarget(place) { return place === 'replace' ? '.gh-comments' : '.demo-article'; }
 
-    // Drop any prior mount/iframe, and show the .gh-comments slot only for replace.
-    function reset(place) {
+    // Show or clear the stand-in subscriber comments area and drop any prior mount.
+    function reset(showComments) {
         var frame = document.querySelector('iframe.giscus-frame');
         if (frame && frame.parentNode) { frame.parentNode.removeChild(frame); }
         var slot = $('demo-slot');
         var m = document.querySelector('[data-greedylabs-giscus]');
         if (m && !slot.contains(m) && m.parentNode) { m.parentNode.removeChild(m); }
-        if (place === 'replace') { slot.hidden = false; slot.innerHTML = SLOT_HTML; }
-        else { slot.hidden = true; slot.innerHTML = ''; }
+        slot.hidden = !showComments;
+        slot.innerHTML = showComments ? SLOT_HTML : '';
     }
 
     function giscusTheme() {
@@ -73,8 +75,11 @@
         }, 350);
     }
 
-    function place(o) {
-        window.GreedyLabsGiscus.mount({
+    // Placement / comments-area change: rebuild the mount and re-run giscus.
+    function rebuild() {
+        var o = read();
+        reset(o.showComments);
+        var node = window.GreedyLabsGiscus.mount({
             target: liveTarget(o.place),
             place: o.place,
             className: o.className,
@@ -83,14 +88,14 @@
             paddingBottom: o.paddingBottom,
             paddingLeft: o.paddingLeft
         });
-    }
-
-    // Placement/target change: rebuild + re-run giscus.
-    function rebuild() {
-        var o = read();
-        reset(o.place);
-        place(o);
-        loadGiscus();
+        var note = $('demo-note');
+        if (!node) {
+            // replace with no subscriber area to target: nothing to mount
+            note.hidden = false; note.textContent = I.noteNoComments;
+        } else {
+            note.hidden = true;
+            loadGiscus();
+        }
         updateSnippet(o);
     }
 
@@ -126,8 +131,9 @@
         $('snippet').textContent = code;
     }
 
-    // placement/target rebuild the mount; class/padding just restyle it
+    // placement / comments-area rebuild the mount; class/padding just restyle it
     $('f-place').addEventListener('change', function () { rebuild(); track('config_change', { field: 'place', value: this.value }); });
+    $('f-show-comments').addEventListener('change', function () { rebuild(); track('config_change', { field: 'show_comments', value: String(this.checked) }); });
     $('f-target').addEventListener('input', function () { updateSnippet(read()); });
     $('f-class').addEventListener('input', restyle);
     ['f-pad-top', 'f-pad-right', 'f-pad-bottom', 'f-pad-left'].forEach(function (id) {

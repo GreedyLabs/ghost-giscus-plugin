@@ -150,6 +150,11 @@
                 <option value="replace">बदलें (replace)</option>
             </select>
         </div>
+        <div class="field check">
+            <input type="checkbox" id="f-show-comments">
+            <label for="f-show-comments">सब्सक्राइबर टिप्पणी क्षेत्र दिखाएँ</label>
+        </div>
+        <p id="demo-note" class="hint" hidden></p>
         <div class="field">
             <label for="f-class">विरासत में ली जाने वाली क्लास <span style="font-weight:400;color:var(--ui-muted)">(वैकल्पिक)</span></label>
             <input type="text" id="f-class" value="gh-comments gh-canvas" placeholder="gh-comments gh-canvas">
@@ -176,11 +181,11 @@
         </div>
     </aside>
 
-    <div class="demo-hero">फ़ीचर इमेज क्षेत्र</div>
+    <div class="demo-hero">फ़ीचर छवि</div>
 
-    <article class="demo-article">
+    <article class="demo-article gh-content gh-canvas">
         <h1>ghost-giscus-plugin प्रीव्यू</h1>
-        <p>इस पेज की टिप्पणियों ने नीचे के टिप्पणी ब्लॉक की जगह ले ली है, जिन्हें इसी प्लगइन ने वहाँ रखा है। पैनल में स्थान और पैडिंग बदलें, और असली टिप्पणियाँ उसी के अनुसार खिसक जाती हैं।</p>
+        <p>डिफ़ॉल्ट रूप से, इस प्लगइन ने इस पेज की टिप्पणियों को लेख के मुख्य भाग के ठीक बाद रखा है। बाएँ पैनल में स्थान, पैडिंग और यह कि सब्सक्राइबर टिप्पणी क्षेत्र मौजूद है या नहीं, बदलें और असली टिप्पणियाँ उसी के अनुसार खिसक जाती हैं।</p>
 
         <h2>परिचय</h2>
         <p>पेज पर जिस भी तत्व में giscus क्लास हो, giscus उसमें टिप्पणियाँ माउंट कर देता है। यह प्लगइन बस उस तत्व को आपकी मनचाही जगह पर बना देता है। टिप्पणियों का असली काम और भंडारण अब भी giscus और GitHub Discussions ही संभालते हैं, इसलिए कुछ भी नए सिरे से नहीं बनाया जाता।</p>
@@ -202,24 +207,33 @@
         data-theme="preferred_color_scheme"
         crossorigin="anonymous"
         async&gt;&lt;/script&gt;</code></pre>
-
-        <h2>क्रम मायने रखता है</h2>
+        <h3>क्रम मायने रखता है</h3>
         <p>यह प्लगइन giscus स्क्रिप्ट से पहले आना चाहिए। giscus चलते ही उसी क्षण तय कर लेता है कि कहाँ माउंट करना है, यह देखकर कि giscus तत्व मौजूद है या नहीं, इसलिए हमारी स्क्रिप्ट को पहले वह जगह बना देनी होती है। क्रम उल्टा हो जाए तो टिप्पणियाँ स्क्रिप्ट टैग की जगह पर आ जाती हैं।</p>
-
-        <h2>विकल्प</h2>
-        <p>स्थान तीन अक्षों में व्यक्त होता है: किस तत्व को आधार बनाना है (data-target), उसके आसपास कहाँ जोड़ना है (data-place), और माउंट रैपर पर लगने वाली स्टाइल। अपनी थीम की टिप्पणी स्टाइल विरासत में लेने के लिए data-class का उपयोग करें, और अंतर सीधे तय करने के लिए data-padding-bottom का।</p>
+        <h3>विकल्प</h3>
+        <p>सारा व्यवहार स्क्रिप्ट टैग की ऑप्शन से सेट होता है: किस तत्व को आधार बनाना है (data-target), उसके सापेक्ष कहाँ जोड़ना है (data-place: replace, append, prepend, before, after इन पाँच में से एक), माउंट रैपर पर जोड़ी जाने वाली क्लास (data-class, स्पेस से अलग करके कई दी जा सकती हैं ताकि आपकी थीम की स्टाइल विरासत में मिले), और चारों ओर की पैडिंग (data-padding-top, data-padding-right, data-padding-bottom, data-padding-left, इकाई px)। जब आधार तत्व नहीं मिलता, तो एक पेज गार्ड giscus स्क्रिप्ट हटा देता है ताकि टिप्पणियाँ गलत जगह न लगें; इसे data-guard="false" से बंद करें।</p>
         <pre><code>data-target=".gh-content"
 data-place="after"
 data-class="gh-comments gh-canvas"
 data-padding-bottom="48"</code></pre>
 
+        <h2>जगह चुनना</h2>
+        <p>ज़्यादातर मामलों के लिए दो तरीके काफ़ी हैं: टिप्पणियों को लेख के ठीक बाद रखना, या किसी मौजूदा टिप्पणी ब्लॉक को बदल देना। दोनों को नीचे बारी-बारी से देखते हैं।</p>
+        <h3>लेख के बाद रखना</h3>
+        <p>अनुशंसित डिफ़ॉल्ट है data-target=".gh-content" data-place="after" data-class="gh-comments gh-canvas" data-padding-bottom="48"। यह लेख के मुख्य भाग (.gh-content) के ठीक बाद माउंट बिंदु बनाता है और थीम की gh-comments gh-canvas क्लास विरासत में लेता है, जिससे पैडिंग और चौड़ाई थीम के अनुरूप दिखती है। यह सबसे सुरक्षित विकल्प है क्योंकि लेख का मुख्य भाग हर पेज पर हमेशा मौजूद रहता है। केवल सदस्यों के लिए दिखने वाले, कभी-कभी छिप जाने वाले टिप्पणी क्षेत्र के विपरीत, यह लक्ष्य कभी गायब नहीं होता, इसलिए हर जगह एक जैसा व्यवहार करता है।</p>
+        <pre><code>&lt;script src="https://cdn.jsdelivr.net/gh/GreedyLabs/ghost-giscus-plugin@1/giscus-mount.min.js"
+        data-target=".gh-content"
+        data-place="after"
+        data-class="gh-comments gh-canvas"
+        data-padding-bottom="48"&gt;&lt;/script&gt;</code></pre>
+        <h3>मौजूदा टिप्पणी ब्लॉक को बदलना</h3>
+        <p>अगर आपकी थीम में पहले से टिप्पणी ब्लॉक है, तो उसकी जगह data-target=".gh-comments" data-place="replace" से दोबारा इस्तेमाल करें। यह थीम फ़ाइल को छुए बिना, केवल code injection से &lt;div class="gh-comments gh-canvas giscus"&gt;&lt;/div&gt; को हूबहू दोहरा देता है, इसलिए थीम द्वारा तय की गई स्थिति और स्टाइल आपको विरासत में मिल जाती है। जब कोई मेल खाता ब्लॉक मौजूद हो, तब इसे चुनें। सावधानी: Ghost की मूल टिप्पणियाँ केवल सदस्यों के लिए होती हैं, इसलिए उन्हें बंद करने वाली साइटों पर .gh-comments तत्व हो ही न, ऐसा संभव है। ऐसे में ऊपर वाला लेख के बाद रखने का डिफ़ॉल्ट इस्तेमाल करें।</p>
+        <pre><code>&lt;script src="https://cdn.jsdelivr.net/gh/GreedyLabs/ghost-giscus-plugin@1/giscus-mount.min.js"
+        data-target=".gh-comments"
+        data-place="replace"&gt;&lt;/script&gt;</code></pre>
+
         <h2>giscus सेटअप</h2>
         <p>रिपॉज़िटरी लिंक, कैटेगरी और repo-id जैसे मान आधिकारिक giscus साइट से आते हैं। वहाँ अपनी रिपॉज़िटरी दर्ज करें और यह पेस्ट करने के लिए तैयार giscus टैग बना देता है।</p>
         <p><a href="https://giscus.app" target="_blank" rel="noopener">giscus.app पर कॉन्फ़िगर करें →</a></p>
-
-        <h2>जगह चुनना</h2>
-        <p>कुछ थीम में Ghost का अंतर्निहित टिप्पणी क्षेत्र केवल सदस्यों के लिए रेंडर होता है, इसलिए वह तत्व मौजूद न भी हो। आर्टिकल के मुख्य भाग या article टैग को आधार बनाना ज़्यादा सुरक्षित है, क्योंकि वे हमेशा मौजूद रहते हैं। किसी मौजूदा टिप्पणी ब्लॉक का दोबारा उपयोग करने के लिए, data-place="replace" सेट करें ताकि वह खाली हो जाए और उसे माउंट बिंदु के रूप में इस्तेमाल किया जा सके।</p>
-        <pre><code>&lt;div class="gh-comments gh-canvas giscus"&gt;&lt;/div&gt;</code></pre>
 
         <h2>अक्सर पूछे जाने वाले प्रश्न</h2>
         <h4>टिप्पणियाँ मेरी मनचाही जगह के बजाय स्क्रिप्ट टैग पर दिख रही हैं।</h4>
@@ -236,7 +250,7 @@ data-padding-bottom="48"</code></pre>
     <!-- Stands in for the theme's native comments slot, shown only in replace
          mode where the plugin clears it and turns it into the giscus mount. -->
     <div id="demo-slot" hidden>
-        <div class="gh-comments gh-canvas"><span class="demo-slot-label">टिप्पणी ब्लॉक</span></div>
+        <div class="gh-comments gh-canvas"><span class="demo-slot-label">सब्सक्राइबर टिप्पणी क्षेत्र</span></div>
     </div>
 
     <!-- 1) our plugin, loaded FIRST so the .giscus mount exists before giscus runs -->
@@ -262,7 +276,7 @@ data-padding-bottom="48"</code></pre>
             async>
     </script>
 
-    <script>window.GGISC_I18N = {"copy":"कॉपी करें","copyDone":"कॉपी हो गया","slotLabel":"टिप्पणी ब्लॉक"};</script>
+    <script>window.GGISC_I18N = {"copy":"कॉपी करें","copyDone":"कॉपी हो गया","slotLabel":"सब्सक्राइबर टिप्पणी क्षेत्र","noteNoComments":"कोई सब्सक्राइबर टिप्पणी क्षेत्र नहीं है, इसलिए replace के पास बदलने को कुछ नहीं है। ऊपर का चेकबॉक्स चालू करें या कोई दूसरा स्थान चुनें।"};</script>
     <script src="/demo.js"></script>
 </body>
 </html>
