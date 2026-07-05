@@ -71,6 +71,7 @@ export default function Configurator({ locale }) {
       g.setAttribute('data-category', GISCUS.category);
       g.setAttribute('data-category-id', GISCUS.categoryId);
       g.setAttribute('data-mapping', GISCUS.mapping);
+      g.setAttribute('data-term', GISCUS.term);
       g.setAttribute('data-reactions-enabled', GISCUS.reactionsEnabled);
       g.setAttribute('data-emit-metadata', GISCUS.emitMetadata);
       g.setAttribute('data-input-position', GISCUS.inputPosition);
