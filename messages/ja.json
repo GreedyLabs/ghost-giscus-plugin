@@ -60,5 +60,6 @@
   "faqA3": "テーマのスタイルシートに規則があれば data-class でそのクラスを付けて継承し、なければ data-padding-bottom で値を直接指定します。",
   "h_closing": "おわりに",
   "bodyClosing": "公式の giscus はそのままに、位置だけを整える薄いツールです。 ghost-giscus-plugin は MIT ライセンスのオープンソースで、コードと Issue は GitHub にあります。左パネルでオプションを変え、気に入ったら埋め込みコードをコピーしてください。お役に立てたら、コーヒーを一杯いただけると嬉しいです ☕。",
-  "commentsTitle": "コメント"
+  "commentsTitle": "コメント",
+  "reset": "リセット"
 }

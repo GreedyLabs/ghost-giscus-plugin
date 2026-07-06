@@ -60,5 +60,6 @@
   "faqA3": "Se a regra está na folha de estilos do seu tema, adicione a classe dela com data-class para herdá-la; caso contrário, defina o valor diretamente com data-padding-bottom.",
   "h_closing": "Conclusão",
   "bodyClosing": "É uma ferramenta leve que mantém o giscus oficial intacto e apenas o posiciona por você. ghost-giscus-plugin é de código aberto sob a licença MIT; o código e as issues estão no GitHub. Experimente as opções no painel à esquerda e copie o trecho quando gostar. Se ajudou você, um café é sempre bem-vindo ☕.",
-  "commentsTitle": "Comentários"
+  "commentsTitle": "Comentários",
+  "reset": "Redefinir"
 }

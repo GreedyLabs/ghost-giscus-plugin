@@ -57,6 +57,10 @@ body { margin: 0; color: var(--ui-fg); background: var(--page-bg); line-height: 
 .preset:hover { color: var(--ui-fg); }
 .field.row { display: flex; gap: 8px; align-items: flex-end; }
 .field.row > div { flex: 1; }
+.code-actions { display: flex; gap: 6px; }
+.reset { font: inherit; font-size: 12px; padding: 4px 10px; border: 1px solid var(--ui-border);
+    background: transparent; color: var(--ui-fg); border-radius: 7px; cursor: pointer; }
+.reset:hover { background: var(--ui-subtle); }
 
 .code { margin-top: 14px; }
 .code-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }

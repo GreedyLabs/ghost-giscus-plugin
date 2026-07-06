@@ -60,5 +60,6 @@
   "faqA3": "如果规则在主题样式表里，用 data-class 加上那个类名来继承它；否则用 data-padding-bottom 直接设置数值。",
   "h_closing": "结语",
   "bodyClosing": "它保持官方 giscus 不变，只为你安排位置，是个轻量工具。 ghost-giscus-plugin 是 MIT 许可的开源项目，代码与问题反馈都在 GitHub 上。在左侧面板调整选项，满意后复制嵌入代码即可。如果它帮到了你，欢迎请我喝杯咖啡 ☕。",
-  "commentsTitle": "评论"
+  "commentsTitle": "评论",
+  "reset": "重置"
 }

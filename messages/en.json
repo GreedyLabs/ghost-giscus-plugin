@@ -60,5 +60,6 @@
   "faqA3": "If the rule is in your theme stylesheet, add its class with data-class to inherit it; otherwise set the value directly with data-padding-bottom.",
   "h_closing": "Wrapping up",
   "bodyClosing": "It is a thin tool that leaves official giscus untouched and only places it for you. ghost-giscus-plugin is open source under the MIT license; the code and issues live on GitHub. Try the options in the left panel and copy the embed snippet when you are happy. If it helped you, a coffee is always appreciated ☕.",
-  "commentsTitle": "Comments"
+  "commentsTitle": "Comments",
+  "reset": "Reset"
 }

@@ -8,13 +8,15 @@ const DEF = { padTop: 0, padRight: 0, padBottom: 48, padLeft: 0 };
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const int = (v, def) => { const n = parseInt(v, 10); return isNaN(n) ? def : n; };
 
+const INIT = {
+  target: '.gh-content', place: 'after', className: 'gh-comments gh-canvas',
+  padTop: DEF.padTop, padRight: DEF.padRight, padBottom: DEF.padBottom, padLeft: DEF.padLeft,
+  showComments: false
+};
+
 export default function Configurator({ locale }) {
   const t = useTranslations();
-  const [o, setO] = useState({
-    target: '.gh-content', place: 'after', className: 'gh-comments gh-canvas',
-    padTop: DEF.padTop, padRight: DEF.padRight, padBottom: DEF.padBottom, padLeft: DEF.padLeft,
-    showComments: false
-  });
+  const [o, setO] = useState(INIT);
   const { theme, resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -177,7 +179,13 @@ export default function Configurator({ locale }) {
       </div>
 
       <div className="code">
-        <div className="code-head"><strong>{t('embedLabel')}</strong><button className={'copy' + (copied ? ' ok' : '')} id="copy" onClick={copy}>{copied ? t('copyDone') : t('copy')}</button></div>
+        <div className="code-head">
+          <strong>{t('embedLabel')}</strong>
+          <span className="code-actions">
+            <button type="button" className="reset" onClick={() => setO(INIT)}>{t('reset')}</button>
+            <button className={'copy' + (copied ? ' ok' : '')} id="copy" onClick={copy}>{copied ? t('copyDone') : t('copy')}</button>
+          </span>
+        </div>
         <pre><code id="snippet">{snippet}</code></pre>
         <p className="hint">{t('embedHint')} <a href="https://giscus.app" target="_blank" rel="noopener">giscus.app</a></p>
       </div>
